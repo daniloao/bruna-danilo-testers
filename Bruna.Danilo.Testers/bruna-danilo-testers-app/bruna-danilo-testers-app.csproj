@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{32BE6B6D-C74B-46A5-9C2A-5DF092371985}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>brunadanilotestersapp</RootNamespace>
+    <AssemblyName>bruna-danilo-testers-app</AssemblyName>
+    <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug</OutputPath>
+    <DefineConstants>DEBUG;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Include="index.html" />
+    <None Include="package-lock.json" />
+    <None Include="package.json" />
+    <None Include="README.md" />
+    <None Include="build\build.js" />
+    <None Include="build\check-versions.js" />
+    <None Include="build\logo.png" />
+    <None Include="build\utils.js" />
+    <None Include="build\vue-loader.conf.js" />
+    <None Include="build\webpack.base.conf.js" />
+    <None Include="build\webpack.dev.conf.js" />
+    <None Include="build\webpack.prod.conf.js" />
+    <None Include="build\webpack.test.conf.js" />
+    <None Include="config\dev.env.js" />
+    <None Include="config\index.js" />
+    <None Include="config\prod.env.js" />
+    <None Include="config\test.env.js" />
+    <None Include="src\App.vue" />
+    <None Include="src\main.js" />
+    <None Include="src\assets\logo.png" />
+    <None Include="src\components\HelloWorld.vue" />
+    <None Include="src\router\index.js" />
+    <None Include="static\.gitkeep" />
+    <None Include="src\services\account-service.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="test\" />
+    <Folder Include="src\services\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+</Project>
