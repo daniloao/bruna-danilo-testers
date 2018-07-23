@@ -11,6 +11,13 @@ console.log(process.env.API_URL_ADDRESS);
 Vue.http.options.root = process.env.API_URL_ADDRESS;
 Vue.config.productionTip = false;
 
+Vue.http.interceptors.push((request, next) => {
+    next((response) => {
+      console.log(response);
+    });
+
+});
+
 new Vue({
   el: '#app',
   router,

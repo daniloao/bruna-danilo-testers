@@ -79,24 +79,24 @@
 </template>
 
 <script>
+import AccountService from '@/services/account-service';
+
 export default {
   name: "HelloWorld",
   data() {
     return {
-      msg: "Welcome to Your Vue.js App",
-      resource: {}
+      msg: "Welcome to Your Vue.js App"
     };
   },
   methods: {
     login() {
-      this.resource.login().then(result => (this.msg = result.data));
+      let user = {
+        userName: 'danilo',
+        userPassword: 'UserPassword',
+        Email: 'daniloao@gmail.com'
+      }
+      AccountService.createUser(user).then(result => (this.msg = result.data));
     }
-  },
-  created() {
-    const customActions = {
-      login: { method: "POST", url: "account/login" }
-    };
-    this.resource = this.$resource("", {}, customActions);
   }
 };
 </script>

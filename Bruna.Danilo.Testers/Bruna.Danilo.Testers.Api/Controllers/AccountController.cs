@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Bruna.Danilo.Testers.Api.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -11,25 +13,12 @@ namespace Bruna.Danilo.Testers.Api.Controllers
     [Route("api/[controller]")]
     public class AccountController : Controller
     {
-        // GET: api/values
-        [HttpGet]
-        public IEnumerable<string> Get()
-        {
-            return new string[] { "value1", "value2" };
-        }
+		private UserManager<UserModel> _userManager;
 
-        // GET api/values/5
-        [HttpGet("{id}")]
-        public string Get(int id)
-        {
-            return "value";
-        }
+		public AccountController( UserManager<UserModel> userManager){
+			_userManager = userManager;
 
-        // POST api/values
-        [HttpPost]
-        public void Post([FromBody]string value)
-        {
-        }
+		}
 
 		[HttpPost("login")]
         public string Login([FromBody]string value)
@@ -37,16 +26,12 @@ namespace Bruna.Danilo.Testers.Api.Controllers
 			return $"login ok: {value}";
         }
 
-        // PUT api/values/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody]string value)
+		[HttpPost("createUser")]
+		public async Task<IActionResult> CreateUserAsync([FromBody]UserModel model)
         {
+			var result = await _userManager.CreateAsync(model, model.UserPassword);
+			return Ok();
         }
 
-        // DELETE api/values/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-        }
     }
 }
