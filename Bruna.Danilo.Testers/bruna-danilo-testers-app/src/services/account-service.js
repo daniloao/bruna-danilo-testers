@@ -4,7 +4,7 @@ export default {
   resource: undefined,
   customActions: {
     login: {method: 'POST', url: 'account/login'},
-    createUser: {method: 'POST', url: 'account/createUser'}
+    register: {method: 'POST', url: 'account/register'}
    },
   setUp(){
     if(this.resource === undefined){
@@ -15,8 +15,8 @@ export default {
     this.setUp();
      return this.resource.login();
   },
-  createUser(user) {
+  register(user) {
     this.setUp();
-     return this.resource.createUser(user);
+     return this.resource.register(user);
   }
 }

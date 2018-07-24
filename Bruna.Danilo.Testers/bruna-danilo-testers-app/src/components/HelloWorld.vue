@@ -92,10 +92,10 @@ export default {
     login() {
       let user = {
         userName: 'danilo',
-        userPassword: 'UserPassword',
+        userPassword: 'UserPassword@123',
         Email: 'daniloao@gmail.com'
       }
-      AccountService.createUser(user).then(result => (this.msg = result.data));
+      AccountService.register(user).then(result => (this.msg = result.data));
     }
   }
 };
