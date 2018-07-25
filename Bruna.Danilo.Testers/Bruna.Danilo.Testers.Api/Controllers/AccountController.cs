@@ -5,6 +5,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using Bruna.Danilo.Testers.Api.Infraestructure;
 using Bruna.Danilo.Testers.Api.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -20,35 +21,33 @@ namespace Bruna.Danilo.Testers.Api.Controllers
     {
 		private readonly SignInManager<IdentityUser> _signInManager;
         private readonly UserManager<IdentityUser> _userManager;
-        private readonly IConfiguration _configuration;
 
 		public AccountController(
         UserManager<IdentityUser> userManager,
-        SignInManager<IdentityUser> signInManager,
-        IConfiguration configuration
-        )
+        SignInManager<IdentityUser> signInManager)
         {
             _userManager = userManager;
             _signInManager = signInManager;
-            _configuration = configuration;
         }
 
 		[HttpPost("login")]
-		public async Task<object> Login([FromBody] UserModel model)
+		public async Task<IActionResult> Login([FromBody] UserModel model)
         {
             var result = await _signInManager.PasswordSignInAsync(model.Email, model.UserPassword, false, false);
 
             if (result.Succeeded)
             {
                 var appUser = _userManager.Users.SingleOrDefault(r => r.Email == model.Email);
-                return await GenerateJwtToken(model.Email, appUser);
+				model.Token = await GenerateJwtToken(model.Email, appUser);
+				return Ok(model.ClearPassword());
             }
 
-            throw new ApplicationException("INVALID_LOGIN_ATTEMPT");
+			model.AddModelError("UserPassword","Login e/ou senha invalidos!");
+			return BadRequest(model.ClearPassword());
         }
 
 		[HttpPost("register")]
-		public async Task<object> Register([FromBody] UserModel model)
+		public async Task<IActionResult> Register([FromBody] UserModel model)
         {
             var user = new IdentityUser
             {
@@ -60,13 +59,18 @@ namespace Bruna.Danilo.Testers.Api.Controllers
             if (result.Succeeded)
             {
                 await _signInManager.SignInAsync(user, false);
-                return await GenerateJwtToken(model.Email, user);
+				model.Token = await GenerateJwtToken(model.Email, appUser);
+                return Ok(model.ClearPassword());
             }
 
-            throw new ApplicationException("UNKNOWN_ERROR");
+			foreach(var currentError in result.Errors){
+				model.AddModelError("UserPassword", $"{currentError.Code} - {currentError.Description}");
+			}
+
+			return BadRequest(model.ClearPassword());
         }
 
-        private async Task<object> GenerateJwtToken(string email, IdentityUser user)
+        private async Task<string> GenerateJwtToken(string email, IdentityUser user)
         {
             var claims = new List<Claim>
             {
@@ -75,13 +79,13 @@ namespace Bruna.Danilo.Testers.Api.Controllers
                 new Claim(ClaimTypes.NameIdentifier, user.Id)
             };
 
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JwtKey"]));
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(AppSettings.JwtKey));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-            var expires = DateTime.Now.AddDays(Convert.ToDouble(_configuration["JwtExpireDays"]));
+            var expires = DateTime.Now.AddDays(Convert.ToDouble(AppSettings.JwtExpireDays));
 
             var token = new JwtSecurityToken(
-                _configuration["JwtIssuer"],
-                _configuration["JwtIssuer"],
+                AppSettings.JwtIssuer,
+				AppSettings.JwtIssuer,
                 claims,
                 expires: expires,
                 signingCredentials: creds

@@ -11,9 +11,9 @@ export default {
       this.resource = Vue.resource('', {}, this.customActions);
     }
   },
-  login() {
+  login(user) {
     this.setUp();
-     return this.resource.login();
+     return this.resource.login(user);
   },
   register(user) {
     this.setUp();

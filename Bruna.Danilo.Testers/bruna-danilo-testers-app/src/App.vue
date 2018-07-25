@@ -1,12 +1,16 @@
 <template>
   <div id="app">
-    <img src="./assets/logo.png">
+    <bd-header></bd-header>
     <router-view/>
   </div>
 </template>
 
 <script>
+ import BdHeader from '@/components/shared/BdHeader';
 export default {
+   components: {
+      BdHeader
+    },
   name: 'App'
 }
 </script>
@@ -18,6 +22,6 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
+  margin-top: 10px;
 }
 </style>
