@@ -5,10 +5,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Bruna.Danilo.Testers.Api.Entities;
+using Bruna.Danilo.Testers.Api.Infraestructure;
+using Bruna.Danilo.Testers.Logs;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -38,7 +41,10 @@ namespace Bruna.Danilo.Testers.Api
                 AllowAnyHeader();
             }));
 
+			services.AddDbContext<LogsContext>(options => options.UseSqlServer(AppSettings.DefaultConnectionString, b => b.MigrationsAssembly("Bruna.Danilo.Testers.Api")));
 			services.AddDbContext<ApplicationDbContext>();
+			services.AddTransient<Logger>();
+			services.AddTransient<LogsContext>();
 
 			// ===== Add Identity ========
             services.AddIdentity<IdentityUser, IdentityRole>()
@@ -61,9 +67,9 @@ namespace Bruna.Danilo.Testers.Api
                     cfg.SaveToken = true;
                     cfg.TokenValidationParameters = new TokenValidationParameters
                     {
-                        ValidIssuer = Configuration["JwtIssuer"],
-                        ValidAudience = Configuration["JwtIssuer"],
-                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["JwtKey"])),
+                        ValidIssuer = AppSettings.JwtIssuer,
+					ValidAudience = AppSettings.JwtIssuer,
+					IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(AppSettings.JwtKey)),
                         ClockSkew = TimeSpan.Zero // remove delay of token when expire
                     };
                 });

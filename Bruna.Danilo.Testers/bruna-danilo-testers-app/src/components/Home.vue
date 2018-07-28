@@ -1,103 +1,35 @@
 <template>
-  <div class="hello">
-    <h1>{{ msg }}</h1>
-    <h2>Essential Links</h2>
-    <ul>
-      <li>
-        <a
-          href="https://vuejs.org"
-          target="_blank"
-        >
-          Core Docs
-        </a>
-      </li>
-      <li>
-        <a
-          href="https://forum.vuejs.org"
-          target="_blank"
-        >
-          Forum
-        </a>
-      </li>
-      <li>
-        <a
-          href="https://chat.vuejs.org"
-          target="_blank"
-        >
-          Community Chat
-        </a>
-      </li>
-      <li>
-        <a
-          href="https://twitter.com/vuejs"
-          target="_blank"
-        >
-          Twitter
-        </a>
-      </li>
-      <br>
-      <li>
-        <a
-          href="http://vuejs-templates.github.io/webpack/"
-          target="_blank"
-        >
-          Docs for This Template
-        </a>
-      </li>
-    </ul>
-    <h2>Ecosystem</h2>
-    <ul>
-      <li>
-        <a
-          href="http://router.vuejs.org/"
-          target="_blank"
-        >
-          vue-router
-        </a>
-      </li>
-      <li>
-        <a
-          href="http://vuex.vuejs.org/"
-          target="_blank"
-        >
-          vuex
-        </a>
-      </li>
-      <li>
-        <a
-          href="http://vue-loader.vuejs.org/"
-          target="_blank"
-        >
-          vue-loader
-        </a>
-      </li>
-      <li>
-        <button class="btn btn-primary" @click="login">Login</button>
-      </li>
-    </ul>
+  <div>
+    <div >
+      <h1>Texto</h1>
+    </div>
+     <div class="row">
+      <div class="large-8 column login-box-parent">
+        <bd-login></bd-login>
+      </div>
+       <div class="large-8 column login-box-parent">
+        <bd-register></bd-register>
+       </div>
+    </div>
   </div>
 </template>
 
 <script>
-import AccountService from '@/services/account-service';
+import AccountService from "@/services/account-service";
+import BdLogin from "@/components/login/BdLogin";
+import BdRegister from "@/components/login/BdRegister";
+import bFormGroup from "bootstrap-vue/es/components/form-group/form-group";
 
 export default {
-  name: "HelloWorld",
-  data() {
-    return {
-      msg: "Welcome to Your Vue.js App"
-    };
+  components: {
+    BdLogin,
+    BdRegister,
+    bFormGroup
   },
-  methods: {
-    login() {
-      let user = {
-        userName: 'danilo',
-        userPassword: 'UserPassword@1234',
-        Email: 'daniloao@gmail.com'
-      }
-      AccountService.login(user).then(result => (this.msg = result.data));
-    }
-  }
+  data() {
+    return {};
+  },
+  methods: {}
 };
 </script>
 

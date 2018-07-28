@@ -1,15 +1,16 @@
 <template>
-  <div class="rounded-top"> 
+  <div> 
     <h1>Header</h1>
+    <div>
+
+    </div>
   </div>
 </template>
 
 <script>
-  export default {
-  
-    data() {
-      return {
-      };
-    },
-  };
+export default {
+  data() {
+    return {};
+  }
+};
 </script>

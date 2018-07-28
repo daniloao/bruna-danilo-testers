@@ -1,19 +1,25 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
+
 namespace Bruna.Danilo.Testers.Api.Models
 {
-	public class UserModel : BaseModel
+	public class UserModel 
     {
         public UserModel()
         {
         }
 
-		public string UserName { get; set; }
-		public string UserPassword { get; set; }
+        [Required]
+		public string Name { get; set; }
+		[Required]
+		[DataType(DataType.Password)]
+		public string Password { get; set; }
+		[Required]
 		public string Email { get; set; }
 		public string Token { get; set; }
 
 		public UserModel ClearPassword(){
-			this.UserPassword = String.Empty;
+			this.Password = String.Empty;
 			return this;
 		}
     }

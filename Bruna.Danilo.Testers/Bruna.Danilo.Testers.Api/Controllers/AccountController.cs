@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Bruna.Danilo.Testers.Api.Infraestructure;
 using Bruna.Danilo.Testers.Api.Models;
+using Bruna.Danilo.Testers.Logs;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -17,57 +18,76 @@ using Microsoft.IdentityModel.Tokens;
 namespace Bruna.Danilo.Testers.Api.Controllers
 {
     [Route("api/[controller]")]
+	[ValidateModel]
     public class AccountController : Controller
     {
 		private readonly SignInManager<IdentityUser> _signInManager;
         private readonly UserManager<IdentityUser> _userManager;
+		private readonly Logger _logger;
 
 		public AccountController(
         UserManager<IdentityUser> userManager,
-        SignInManager<IdentityUser> signInManager)
+        SignInManager<IdentityUser> signInManager,
+		Logger logger)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+			_logger = logger;
         }
 
 		[HttpPost("login")]
-		public async Task<IActionResult> Login([FromBody] UserModel model)
+		public async Task<IActionResult> Login([FromBody] RegisterModel model)
         {
-            var result = await _signInManager.PasswordSignInAsync(model.Email, model.UserPassword, false, false);
+			try
+			{
+                var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, false, false);
 
-            if (result.Succeeded)
+                if (result.Succeeded)
+                {
+                    var appUser = _userManager.Users.SingleOrDefault(r => r.Email == model.Email);
+    				model.Token = await GenerateJwtToken(model.Email, appUser);
+    				return Ok(model.ClearPassword());
+                }
+
+    			return BadRequest("Login e/ou senha invalidos!");
+		    }
+            catch (Exception ex)
             {
-                var appUser = _userManager.Users.SingleOrDefault(r => r.Email == model.Email);
-				model.Token = await GenerateJwtToken(model.Email, appUser);
-				return Ok(model.ClearPassword());
+                _logger.SaveAsync(ex, null);
+                throw ex;
             }
-
-			model.AddModelError("UserPassword","Login e/ou senha invalidos!");
-			return BadRequest(model.ClearPassword());
         }
 
 		[HttpPost("register")]
 		public async Task<IActionResult> Register([FromBody] UserModel model)
         {
-            var user = new IdentityUser
-            {
-                UserName = model.Email,
-                Email = model.Email
-            };
-            var result = await _userManager.CreateAsync(user, model.UserPassword);
+			try
+			{
+    			var user = new IdentityUser
+                {
+                    UserName = model.Name,
+                    Email = model.Email
+                };
+                var result = await _userManager.CreateAsync(user, model.Password);
 
-            if (result.Succeeded)
-            {
-                await _signInManager.SignInAsync(user, false);
-				model.Token = await GenerateJwtToken(model.Email, appUser);
-                return Ok(model.ClearPassword());
-            }
+                if (result.Succeeded)
+                {
+                    await _signInManager.SignInAsync(user, false);
+    				model.Token = await GenerateJwtToken(model.Email, user);
+                    return Ok(model.ClearPassword());
+                }
 
-			foreach(var currentError in result.Errors){
-				model.AddModelError("UserPassword", $"{currentError.Code} - {currentError.Description}");
+    			foreach(var currentError in result.Errors){
+    				this.ModelState.AddModelError(currentError.Code, $"{currentError.Code} - {currentError.Description}");
+    			}
+
+    			return BadRequest(this.ModelState);
 			}
-
-			return BadRequest(model.ClearPassword());
+            catch (Exception ex)
+            {
+				_logger.SaveAsync(ex, null);
+				throw ex;
+            }
         }
 
         private async Task<string> GenerateJwtToken(string email, IdentityUser user)
