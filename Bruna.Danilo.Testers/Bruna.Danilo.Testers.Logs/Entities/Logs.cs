@@ -16,8 +16,7 @@ namespace Bruna.Danilo.Testers.Logs.Entities
 		public string Message { get; set; }
 		public string StackTrace { get; set; }
 		public string MoreInfo { get; set; }
-
-		[Required]
+        
         [StringLength(450)]
 		public string UserId { get; set; }
 		[Required]

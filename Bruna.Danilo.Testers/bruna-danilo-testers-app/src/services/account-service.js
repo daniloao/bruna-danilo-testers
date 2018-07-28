@@ -15,11 +15,13 @@ export default {
   login(user) {
     this.setUp();
     user.email = user.name;
+    console.log(user);
     return this.resource.login(user).then((response) => {
       console.log(response);
       Vue.ls.set('user', response.data);
       Vue.ls.set('token', JSON.stringify(response.data.token));
     }, (error) => {
+      console.log('error');
       console.log(error);
     });
   },

@@ -59,6 +59,8 @@ export default {
   },
   methods: {
     login() {
+      console.log("model");
+      console.log(this.model);
       AccountService.login(this.model);
     }
   }

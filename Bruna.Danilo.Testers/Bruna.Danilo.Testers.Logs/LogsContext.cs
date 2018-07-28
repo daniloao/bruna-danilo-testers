@@ -11,7 +11,8 @@ namespace Bruna.Danilo.Testers.Logs
 
 		protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-			optionsBuilder.UseSqlServer("Server=tcp:bruna-danilo.database.windows.net;Database=Testers;User ID=danilo@bruna-danilo;Password=Bd@111014;Trusted_Connection=False;Encrypt=True;");
+			optionsBuilder.UseSqlServer("Server=tcp:bruna-danilo.database.windows.net;Database=Testers;User ID=danilo@bruna-danilo;Password=Bd@111014;Trusted_Connection=False;Encrypt=True;")
+			              .EnableSensitiveDataLogging();
         }
 
 		public DbSet<Entities.Logs> Logs { get; set; }
