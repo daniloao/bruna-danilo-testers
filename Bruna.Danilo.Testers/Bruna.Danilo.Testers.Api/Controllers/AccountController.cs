@@ -5,13 +5,15 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
-using Bruna.Danilo.Testers.Api.Infraestructure;
+using Bruna.Danilo.Testers.Settings;
 using Bruna.Danilo.Testers.Api.Models;
 using Bruna.Danilo.Testers.Logs;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
+using Bruna.Danilo.Testers.Database;
+using Bruna.Danilo.Testers.Api.Mappers;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -24,19 +26,22 @@ namespace Bruna.Danilo.Testers.Api.Controllers
 		private readonly SignInManager<IdentityUser> _signInManager;
         private readonly UserManager<IdentityUser> _userManager;
 		private readonly Logger _logger;
+		private readonly UserDao _userDao;
 
 		public AccountController(
         UserManager<IdentityUser> userManager,
         SignInManager<IdentityUser> signInManager,
-		Logger logger)
+		Logger logger,
+			UserDao userDao)
         {
             _userManager = userManager;
             _signInManager = signInManager;
 			_logger = logger;
+			_userDao = userDao;
         }
 
 		[HttpPost("login")]
-		public async Task<IActionResult> Login([FromBody] RegisterModel model)
+		public async Task<IActionResult> Login([FromBody] UserModel model)
         {
 			try
 			{
@@ -53,13 +58,13 @@ namespace Bruna.Danilo.Testers.Api.Controllers
 		    }
             catch (Exception ex)
             {
-                _logger.SaveAsync(ex, null);
+                _logger.ErrorAsync(ex, null);
                 throw ex;
             }
         }
 
 		[HttpPost("register")]
-		public async Task<IActionResult> Register([FromBody] UserModel model)
+		public async Task<IActionResult> Register([FromBody] RegisterModel  model)
         {
 			try
 			{
@@ -72,6 +77,7 @@ namespace Bruna.Danilo.Testers.Api.Controllers
 
                 if (result.Succeeded)
                 {
+					this._userDao.Update(model.ToEntity(user));
                     await _signInManager.SignInAsync(user, false);
     				model.Token = await GenerateJwtToken(model.Email, user);
                     return Ok(model.ClearPassword());
@@ -85,7 +91,7 @@ namespace Bruna.Danilo.Testers.Api.Controllers
 			}
             catch (Exception ex)
             {
-				_logger.SaveAsync(ex, null);
+				_logger.ErrorAsync(ex, null);
 				throw ex;
             }
         }

@@ -23,7 +23,7 @@ Vue.use(VueLocalStorage, {
 });
 Vue.use(NProgress, {
   latencyThreshold: 200, // Number of ms before progressbar starts showing, default: 100,
-  router: true, // Show progressbar when navigating routes, default: true
+  router: false, // Show progressbar when navigating routes, default: true
   http: false // Show progressbar when doing Vue.http, default: true
 });
 

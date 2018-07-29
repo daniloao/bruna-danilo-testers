@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
+using Bruna.Danilo.Testers.Settings;
 
 namespace Bruna.Danilo.Testers.Logs
 {
@@ -69,6 +70,9 @@ namespace Bruna.Danilo.Testers.Logs
                       string moreInfo,
                       string userId)
         {
+			if (!AppSettings.LogInfo)
+				return 0;
+			
 			return await this.SaveAsync(LogTypesEnum.Info, message, null, moreInfo, userId, null);
         }
         
@@ -88,7 +92,7 @@ namespace Bruna.Danilo.Testers.Logs
 			return await this.SaveAsync(LogTypesEnum.Error, message, stackTrace, moreInfo, userId, parentLogId);
         }
 
-		public async Task<int> SaveAsync(Exception ex,
+		public async Task<int> ErrorAsync(Exception ex,
                                string userId,
 		                                int? parentLogId = null)
         {
@@ -100,7 +104,7 @@ namespace Bruna.Danilo.Testers.Logs
 			Exception inner = ex.InnerException;
 
 			while(inner != null){
-				await this.SaveAsync(inner, userId, parentLogId);
+				await this.ErrorAsync(inner, userId, parentLogId);
 			}
 
 			return (parentLogId.HasValue) ? parentLogId.Value : 0;

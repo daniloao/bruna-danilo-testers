@@ -1,4 +1,5 @@
 ﻿using System;
+using Bruna.Danilo.Testers.Settings;
 using Microsoft.EntityFrameworkCore;
 
 namespace Bruna.Danilo.Testers.Logs
@@ -11,7 +12,7 @@ namespace Bruna.Danilo.Testers.Logs
 
 		protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-			optionsBuilder.UseSqlServer("Server=tcp:bruna-danilo.database.windows.net;Database=Testers;User ID=danilo@bruna-danilo;Password=Bd@111014;Trusted_Connection=False;Encrypt=True;")
+			optionsBuilder.UseSqlServer(AppSettings.LogConnectionString)
 			              .EnableSensitiveDataLogging();
         }
 

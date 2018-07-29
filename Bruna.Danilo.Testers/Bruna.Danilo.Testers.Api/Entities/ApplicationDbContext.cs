@@ -1,5 +1,4 @@
-﻿using System;
-using Bruna.Danilo.Testers.Api.Infraestructure;
+﻿using Bruna.Danilo.Testers.Settings;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 

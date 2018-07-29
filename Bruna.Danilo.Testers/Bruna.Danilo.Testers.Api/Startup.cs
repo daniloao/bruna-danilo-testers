@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Bruna.Danilo.Testers.Api.Entities;
-using Bruna.Danilo.Testers.Api.Infraestructure;
+using Bruna.Danilo.Testers.Settings;
 using Bruna.Danilo.Testers.Logs;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -17,6 +17,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using Bruna.Danilo.Testers.Database;
 
 namespace Bruna.Danilo.Testers.Api
 {
@@ -42,10 +43,12 @@ namespace Bruna.Danilo.Testers.Api
             }));
 
 			services.AddDbContext<LogsContext>(options => options.UseSqlServer(AppSettings.DefaultConnectionString, b => b.MigrationsAssembly("Bruna.Danilo.Testers.Api")));
+			services.AddDbContext<TestersContext>(options => options.UseSqlServer(AppSettings.DefaultConnectionString, b => b.MigrationsAssembly("Bruna.Danilo.Testers.Api")));
 			services.AddDbContext<ApplicationDbContext>();
 			services.AddTransient<Logger>();
 			services.AddTransient<LogsContext>();
-
+			services.AddTransient<TestersContext>();
+			services.AddTransient<UserDao>();
 			// ===== Add Identity ========
             services.AddIdentity<IdentityUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()

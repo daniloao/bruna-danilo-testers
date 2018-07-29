@@ -9,6 +9,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "bruna-danilo-testers-app", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bruna.Danilo.Testers.Logs", "Bruna.Danilo.Testers.Logs\Bruna.Danilo.Testers.Logs.csproj", "{85F47A7F-3BB5-464F-ACF3-9C59F1D0D362}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bruna.Danilo.Testers.Database", "Bruna.Danilo.Database\Bruna.Danilo.Testers.Database.csproj", "{F54798EE-8960-4C3A-BCF2-742B4235F6DA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bruna.Danilo.Testers.Settings", "Bruna.Danilo.Testers.Settings\Bruna.Danilo.Testers.Settings.csproj", "{28C82600-9ADD-4E7A-8E77-DC9CE33ED3EF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -31,5 +35,13 @@ Global
 		{85F47A7F-3BB5-464F-ACF3-9C59F1D0D362}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{85F47A7F-3BB5-464F-ACF3-9C59F1D0D362}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{85F47A7F-3BB5-464F-ACF3-9C59F1D0D362}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F54798EE-8960-4C3A-BCF2-742B4235F6DA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F54798EE-8960-4C3A-BCF2-742B4235F6DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F54798EE-8960-4C3A-BCF2-742B4235F6DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F54798EE-8960-4C3A-BCF2-742B4235F6DA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{28C82600-9ADD-4E7A-8E77-DC9CE33ED3EF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{28C82600-9ADD-4E7A-8E77-DC9CE33ED3EF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{28C82600-9ADD-4E7A-8E77-DC9CE33ED3EF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{28C82600-9ADD-4E7A-8E77-DC9CE33ED3EF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

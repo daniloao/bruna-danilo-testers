@@ -1,11 +1,10 @@
 <template>
   <div>
-    <div >
-      <h1>Texto</h1>
-    </div>
      <div class="row">
       <div class="large-8 column login-box-parent">
-        <bd-login></bd-login>
+            <div>
+      <h1>Texto</h1>
+    </div>
       </div>
        <div class="large-8 column login-box-parent">
         <bd-register></bd-register>

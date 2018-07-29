@@ -9,6 +9,7 @@
     <Folder Include="Models\" />
     <Folder Include="Entities\" />
     <Folder Include="Infraestructure\" />
+    <Folder Include="Mappers\" />
   </ItemGroup>
 
   <ItemGroup>
@@ -37,5 +38,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Bruna.Danilo.Testers.Logs\Bruna.Danilo.Testers.Logs.csproj" />
+    <ProjectReference Include="..\Bruna.Danilo.Testers.Settings\Bruna.Danilo.Testers.Settings.csproj" />
+    <ProjectReference Include="..\Bruna.Danilo.Database\Bruna.Danilo.Testers.Database.csproj" />
   </ItemGroup>
 </Project>

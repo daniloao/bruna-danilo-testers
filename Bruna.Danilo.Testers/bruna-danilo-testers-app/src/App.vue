@@ -1,15 +1,18 @@
 <template>
   <div id="app">
     <bd-header></bd-header>
+    <bd-menu></bd-menu>
     <router-view/>
   </div>
 </template>
 
 <script>
 import BdHeader from "@/components/shared/BdHeader";
+import BdMenu from "@/components/shared/BdMenu";
 export default {
   components: {
-    BdHeader
+    BdHeader,
+    BdMenu
   },
   name: "App"
 };

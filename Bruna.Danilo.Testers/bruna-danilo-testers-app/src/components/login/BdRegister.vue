@@ -8,6 +8,17 @@
                     label-class="font-weight-bold pt-0"
                     class="mb-0">
           <b-form-group horizontal
+                label="Nome:"
+                label-class="text-sm-right"
+                label-for="nome">
+
+          <b-form-input id="nome" 
+                          type="text" 
+                          placeholder="Nome"
+                          v-model="model.fullName"></b-form-input>
+          </b-form-group>
+
+          <b-form-group horizontal
                 label="Email:"
                 label-class="text-sm-right"
                 label-for="email">
@@ -17,6 +28,35 @@
                           placeholder="Entre seu email"
                           v-model="model.name"></b-form-input>
           </b-form-group>
+          <b-form-group horizontal
+                label="Confirme seu Email:"
+                label-class="text-sm-right"
+                label-for="confirmEmail">
+
+          <b-form-input id="confirmEmail" 
+                          type="text" 
+                          placeholder="Confirme seu email"
+                          v-model="model.confirmEmail"></b-form-input>
+          </b-form-group>
+
+    <b-form-group horizontal
+                  label-class="text-sm-right"
+                  label="Sexo:"
+                  label-for="sexo">
+      <b-form-radio-group id="sexo" v-model="model.sex" :options="sexos" name="sexo">
+      </b-form-radio-group>
+    </b-form-group>
+
+         <b-form-group horizontal
+                label="Estado:"
+                label-class="text-sm-right"
+                label-for="confirmEmail">
+          <model-select :options="estados"
+                  v-model="model.estado"
+                  placeholder="Selecione um estado">
+         </model-select>
+    </b-form-group>
+
           <b-form-group horizontal
             label="Senha:"
             label-class="text-sm-right"
@@ -49,14 +89,17 @@ import bFormInput from "bootstrap-vue/es/components/form-input/form-input";
 import bButton from "bootstrap-vue/es/components/button/button";
 import bFormGroup from "bootstrap-vue/es/components/form-group/form-group";
 import bCard from "bootstrap-vue/es/components/card/card";
+import { ModelSelect } from "vue-search-select";
 import AccountService from "@/services/account-service";
+import IBGEService from "@/services/ibge-service";
 
 export default {
   components: {
     bFormInput,
     bButton,
     bFormGroup,
-    bCard
+    bCard,
+    ModelSelect
   },
   data() {
     return {
@@ -64,14 +107,42 @@ export default {
         name: "",
         password: "",
         confirmPassword: "",
-        email: ""
-      }
+        email: "",
+        confirmEmail: "",
+        fullName: "",
+        sex: "F",
+        estado: "",
+        city: "",
+        acceptTerms: false
+      },
+      sexos: [
+        { text: "Feminino", value: "F" },
+        { text: "Masculino", value: "M" }
+      ],
+      estados: []
     };
   },
   methods: {
     register() {
       AccountService.register(this.model);
+    },
+    loadEstados() {
+      IBGEService.getEstados().then(response => {
+        response.data.forEach(currentEstado => {
+          this.estados.push({
+            id: currentEstado.id,
+            value: currentEstado.sigla,
+            text: currentEstado.sigla
+          });
+        });
+      });
+      this.estados = _.sortBy(this.estados, "text");
+
+      console.log(this.estados);
     }
+  },
+  created() {
+    this.loadEstados();
   }
 };
 </script>

@@ -24,7 +24,7 @@ namespace Bruna.Danilo.Testers.Logs.Entities
         
 		public int? ParentLogId { get; set; }
 
-		[ForeignKey("StandardRefId")]
+		[ForeignKey("ParentLogId")]
 		public Logs ParentLog { get; set; }
     }
 }
