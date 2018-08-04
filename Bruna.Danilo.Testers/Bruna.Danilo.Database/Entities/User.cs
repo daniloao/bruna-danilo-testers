@@ -41,6 +41,9 @@ namespace Bruna.Danilo.Testers.Database.Entities
 		[Required]
 		public string City { get; set; }//nvarchar(max)
 		[Required]
+		[StringLength(2)]
+        public string Estado { get; set; }//nvarchar(max)
+		[Required]
 		public bool AcceptTerms { get; set; }//bit
     }
 }

@@ -9,14 +9,14 @@ namespace Bruna.Danilo.Testers.Api.Models
         {
         }
 
-        [Required]
-        [DataType(DataType.EmailAddress)]
+		[Required(ErrorMessage = "Favor preencher seu nome de usuário")]
+        [DataType(DataType.EmailAddress, ErrorMessage = "Favor preencher com um e-mail válido")]
 		public string Name { get; set; }
-		[Required]
+		[Required(ErrorMessage = "Favor preencher sua senha")]
 		[DataType(DataType.Password)]
 		public string Password { get; set; }
-		[Required]
-		[DataType(DataType.EmailAddress)]
+		[Required(ErrorMessage = "Favor preencher seu e-mail")]
+		[DataType(DataType.EmailAddress, ErrorMessage = "Favor preencher com um e-mail válido")]
 		public string Email { get; set; }
 		public string Token { get; set; }
 

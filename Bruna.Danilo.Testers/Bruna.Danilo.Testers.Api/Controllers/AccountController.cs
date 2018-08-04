@@ -68,6 +68,9 @@ namespace Bruna.Danilo.Testers.Api.Controllers
         {
 			try
 			{
+				if(!this.ModelState.IsValid)
+					return BadRequest(this.ModelState);
+				
     			var user = new IdentityUser
                 {
                     UserName = model.Name,

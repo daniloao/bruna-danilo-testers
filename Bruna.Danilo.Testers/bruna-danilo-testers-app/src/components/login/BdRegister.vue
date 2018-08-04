@@ -11,11 +11,12 @@
                 label="Nome:"
                 label-class="text-sm-right"
                 label-for="nome">
-
-          <b-form-input id="nome" 
-                          type="text" 
-                          placeholder="Nome"
-                          v-model="model.fullName"></b-form-input>
+          <bd-validable-input type="text"
+                              name="fullName"
+                              placeholder="Nome"
+                              :model.sync="model.fullName"
+                              :atualizaModel="atualizaModel"
+                              :modelState.sync="modelState"></bd-validable-input>
           </b-form-group>
 
           <b-form-group horizontal
@@ -23,60 +24,109 @@
                 label-class="text-sm-right"
                 label-for="email">
 
-          <b-form-input id="email" 
-                          type="text" 
-                          placeholder="Entre seu email"
-                          v-model="model.name"></b-form-input>
+            <bd-validable-input type="text"
+                              name="email"
+                              placeholder="Entre seu email"
+                              :model.sync="model.name"
+                              :atualizaModel="atualizaModel"
+                              :modelState.sync="modelState"></bd-validable-input>
           </b-form-group>
           <b-form-group horizontal
                 label="Confirme seu Email:"
                 label-class="text-sm-right"
                 label-for="confirmEmail">
-
-          <b-form-input id="confirmEmail" 
-                          type="text" 
-                          placeholder="Confirme seu email"
-                          v-model="model.confirmEmail"></b-form-input>
+            <bd-validable-input type="text"
+                              name="confirmEmail"
+                              placeholder="Confirme seu email"
+                              :model.sync="model.confirmEmail"
+                              :atualizaModel="atualizaModel"
+                              :modelState.sync="modelState"></bd-validable-input>
           </b-form-group>
 
     <b-form-group horizontal
                   label-class="text-sm-right"
                   label="Sexo:"
                   label-for="sexo">
-      <b-form-radio-group id="sexo" v-model="model.sex" :options="sexos" name="sexo">
-      </b-form-radio-group>
+          <bd-validable-input type="radio"
+                      name="sex"
+                      :model.sync="model.sex"
+                      :atualizaModel="atualizaModel"
+                      :modelState.sync="modelState"
+                      :options="sexos" ></bd-validable-input>
     </b-form-group>
-
          <b-form-group horizontal
-                label="Estado:"
+                label="Estado/Cidade:"
                 label-class="text-sm-right"
-                label-for="confirmEmail">
-          <model-select :options="estados"
-                  v-model="model.estado"
-                  placeholder="Selecione um estado">
-         </model-select>
+                label-for="cidadeEstado">
+                  <div class="row" 
+                      id="cidadeEstado"
+                      name="cidadeEstado">
+                      <div id="estadoDiv">
+                        <bd-validable-input type="select"
+                          placeholder="UF"
+                          name="estado"
+                          :model.sync="model.estado"
+                          :atualizaModel="atualizaModel"
+                          :modelState.sync="modelState"
+                          :options="sortedEstados" 
+                          :showValidadtionMessage="false"></bd-validable-input>
+                      </div>
+                      <div id="cidadeDiv">
+                        <bd-validable-input type="select"
+                          placeholder="Cidade"
+                          name="cidade"
+                          :model.sync="model.cidade"
+                          :atualizaModel="atualizaModel"
+                          :modelState.sync="modelState"
+                          :options="sortedCidades" 
+                          :isDisabled="cidades.length <= 0"
+                          :showValidadtionMessage="false"></bd-validable-input>
+                      </div>
+                      <div class="validation-message">
+                      <b-alert variant="danger" :show="cidadesEstadosModelState.length > 0">
+                        <p class="validation-message" v-for="(message, key) in cidadesEstadosModelState" :key="key">
+                          {{message}}
+                        </p>
+                      </b-alert>
+                      </div>
+                  </div>
     </b-form-group>
 
           <b-form-group horizontal
             label="Senha:"
             label-class="text-sm-right"
             label-for="senha">
-              <b-form-input id="senha" 
-                              type="password" 
-                              placeholder="Entre sua senha"
-                              v-model="model.password"></b-form-input>
+              <bd-validable-input type="password"
+                            placeholder="Digite sua senha"
+                            name="password"
+                            :model.sync="model.password"
+                            :atualizaModel="atualizaModel"
+                            :modelState.sync="modelState"></bd-validable-input>
           </b-form-group>
           <b-form-group horizontal
             label="Confirme sua senha:"
             label-class="text-sm-right"
             label-for="confirm-senha">
-              <b-form-input id="confirm-senha" 
-                              type="password" 
-                              placeholder="Confirme sua senha"
-                              v-model="model.confirmPassword"></b-form-input>
-          </b-form-group>          
-          <b-form-group> 
-                  
+                <bd-validable-input type="password"
+                            placeholder="Confirme sua senha"
+                            name="confirmPassword"
+                            :model.sync="model.confirmPassword"
+                            :atualizaModel="atualizaModel"
+                            :modelState.sync="modelState"></bd-validable-input>
+
+          </b-form-group> 
+          <b-form-group horizontal> 
+                <bd-validable-input 
+                            type="checkbox"
+                            placeholder="Aceito os termos e condições"
+                            name="acceptTerms"
+                            :checkboxModel.sync="model.acceptTerms"
+                            :atualizaModel="atualizaModel"
+                            :modelState.sync="modelState"></bd-validable-input>
+                            <a href="#">Termos e condições aqui!</a>
+          </b-form-group>
+
+          <b-form-group horizontal> 
             <b-button @click="register" variant="primary">Registre-se</b-button>
         </b-form-group>
       </b-form-group>
@@ -85,21 +135,20 @@
 </template>
 
 <script>
-import bFormInput from "bootstrap-vue/es/components/form-input/form-input";
 import bButton from "bootstrap-vue/es/components/button/button";
 import bFormGroup from "bootstrap-vue/es/components/form-group/form-group";
 import bCard from "bootstrap-vue/es/components/card/card";
-import { ModelSelect } from "vue-search-select";
+import _ from "lodash";
 import AccountService from "@/services/account-service";
 import IBGEService from "@/services/ibge-service";
+import BdValidableInput from "@/components/directives/BdValidableInput";
 
 export default {
   components: {
-    bFormInput,
+    BdValidableInput,
     bButton,
     bFormGroup,
-    bCard,
-    ModelSelect
+    bCard
   },
   data() {
     return {
@@ -112,19 +161,71 @@ export default {
         fullName: "",
         sex: "F",
         estado: "",
-        city: "",
+        selectedEstado: {},
+        cidade: "",
         acceptTerms: false
       },
       sexos: [
         { text: "Feminino", value: "F" },
         { text: "Masculino", value: "M" }
       ],
-      estados: []
+      estados: [],
+      cidades: [],
+      modelState: {},
+      cidadesEstadosModelState: []
     };
   },
+  watch: {
+    "model.selectedEstado"() {
+      this.cidadesEstadosModelState = [];
+      this.model.estado = this.model.selectedEstado.value;
+      this.loadCidades(this.model.selectedEstado.id);
+    },
+    "model.cidade"() {
+      this.cidadesEstadosModelState = [];
+    }
+  },
   methods: {
+    loadCidades(estadoId) {
+      this.cidades = [];
+      IBGEService.getCidades(estadoId).then(response => {
+        response.data.forEach(currentCidade => {
+          this.cidades.push({
+            value: currentCidade.nome,
+            text: currentCidade.nome
+          });
+        });
+      });
+    },
+    atualizaModel(propName, valor) {
+      this.model[propName] = valor;
+      if (propName === "estado") {
+        this.model.selectedEstado = _.find(
+          this.sortedEstados,
+          item => item.value === valor
+        );
+      }
+    },
     register() {
-      AccountService.register(this.model);
+      AccountService.register(this.model).then(
+        response => {
+          console.log("response");
+          console.log(response);
+        },
+        error => {
+          if (error.body.Cidade) {
+            _.forEach(error.body.Cidade, cid => {
+              this.cidadesEstadosModelState.push(cid);
+            });
+          }
+          if (error.body.Estado) {
+            _.forEach(error.body.Estado, est => {
+              this.cidadesEstadosModelState.push(est);
+            });
+          }
+          this.modelState = error.body;
+        }
+      );
     },
     loadEstados() {
       IBGEService.getEstados().then(response => {
@@ -136,9 +237,22 @@ export default {
           });
         });
       });
-      this.estados = _.sortBy(this.estados, "text");
-
-      console.log(this.estados);
+    }
+  },
+  computed: {
+    sortedEstados() {
+      return _.sortBy(this.estados, [
+        function(o) {
+          return o.value;
+        }
+      ]);
+    },
+    sortedCidades() {
+      return _.sortBy(this.cidades, [
+        function(o) {
+          return o.value;
+        }
+      ]);
     }
   },
   created() {
@@ -146,3 +260,15 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+#estadoDiv {
+  width: 15%;
+  margin-left: 15px;
+}
+
+#cidadeDiv {
+  width: 75%;
+  margin-left: 4%;
+}
+</style>

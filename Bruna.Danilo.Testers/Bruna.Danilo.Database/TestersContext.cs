@@ -13,6 +13,7 @@ namespace Bruna.Danilo.Testers.Database
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
+            
             optionsBuilder.UseSqlServer(AppSettings.DefaultConnectionString)
                           .EnableSensitiveDataLogging();
         }
@@ -20,6 +21,16 @@ namespace Bruna.Danilo.Testers.Database
 		protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
+			builder.Entity<User>()
+                        .HasIndex(b => b.FullName);
+			builder.Entity<User>()
+                .HasIndex(b => b.Sex);
+			builder.Entity<User>()
+            .HasIndex(b => b.City);
+			builder.Entity<User>()
+            .HasIndex(b => b.Estado);
+			builder.Entity<User>()
+            .HasIndex(b => b.AcceptTerms);
 			builder.Ignore<Role>();
 			builder.Ignore<UserRole>();
         }
