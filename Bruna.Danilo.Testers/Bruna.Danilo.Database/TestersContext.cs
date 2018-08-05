@@ -26,20 +26,24 @@ namespace Bruna.Danilo.Testers.Database
 			builder.Entity<User>()
                     .HasIndex(b => b.Sex);
 			builder.Entity<User>()
-                    .HasIndex(b => b.City);
-			builder.Entity<User>()
-                    .HasIndex(b => b.Estado);
-			builder.Entity<User>()
 			       .HasIndex(b => b.AcceptTerms);
 			builder.Ignore<Role>();
 			builder.Ignore<UserRole>();
 			builder.Entity<User>()
 			       .Property(b => b.AcceptTerms)
                    .HasDefaultValue(false);
+			builder.Entity<Estado>()
+                   .Property(c => c.Id)
+                   .ValueGeneratedNever();
+			builder.Entity<Estado>()
+                   .HasIndex(b => b.Sigla);
         }
 
 		public DbSet<Role> Roles { get; set; }
         public DbSet<User> Users { get; set; }
 		public DbSet<UserRole> UserRoles { get; set; }
+		public DbSet<Estado> Estados { get; set; }
+		public DbSet<Cidade> Cidades { get; set; }
+		public DbSet<HistoricoCidadesEstados> HistoricoCidadesEstados { get; set; }
     }
 }

@@ -49,14 +49,18 @@ namespace Bruna.Danilo.Testers.Api
 			services.AddTransient<LogsContext>();
 			services.AddTransient<TestersContext>();
 			services.AddTransient<UserDao>();
+			services.AddTransient<EstadoDao>();
+			services.AddTransient<HistoricoCidadesEstadosDao>();
+			services.AddTransient<CidadeDao>();
 			// ===== Add Identity ========
             services.AddIdentity<IdentityUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
 			// ===== Add Jwt Authentication ========
-            JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear(); // => remove default claims
-            services
+			JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
+
+			services
                 .AddAuthentication(options =>
                 {
                     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -70,12 +74,31 @@ namespace Bruna.Danilo.Testers.Api
                     cfg.SaveToken = true;
                     cfg.TokenValidationParameters = new TokenValidationParameters
                     {
-                        ValidIssuer = AppSettings.JwtIssuer,
+					ValidIssuer = AppSettings.JwtIssuer,
 					ValidAudience = AppSettings.JwtIssuer,
 					IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(AppSettings.JwtKey)),
                         ClockSkew = TimeSpan.Zero // remove delay of token when expire
-                    };
+                                };
                 });
+                     
+
+           // JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear(); // => remove default claims
+            //services
+			//	.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+              //  .AddJwtBearer(cfg =>
+               // {
+                 //   cfg.RequireHttpsMetadata = false;
+                 //   cfg.SaveToken = true;
+                 //   cfg.TokenValidationParameters = new TokenValidationParameters
+                 //   {
+			//		    ValidateIssuer = true,
+             //           ValidIssuer = AppSettings.JwtIssuer,
+              //          ValidateAudience = true,
+			///		    ValidAudience = AppSettings.JwtIssuer,
+		//			    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(AppSettings.JwtKey)),
+	//				    ValidateIssuerSigningKey = true
+     //               };
+      //          });
 
 			services.AddMvc();
         }
@@ -90,6 +113,7 @@ namespace Bruna.Danilo.Testers.Api
                 app.UseDeveloperExceptionPage();
             }
 
+			app.UseAuthentication();
 			app.UseCors("Cors");          
 			app.UseMvc();
 

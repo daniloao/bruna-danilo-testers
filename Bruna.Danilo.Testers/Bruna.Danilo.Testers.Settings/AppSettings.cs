@@ -103,5 +103,31 @@ namespace Bruna.Danilo.Testers.Settings
                 return _logConnectionString;
             }
         }
+
+		private static string _IBGEEstadosUrl;
+
+		public static string IBGEEstadosUrl
+        {
+            get
+            {
+				if (String.IsNullOrEmpty(_IBGEEstadosUrl))
+					_IBGEEstadosUrl = Configuration["IBGEEstadosUrl"];
+
+				return _IBGEEstadosUrl;
+            }
+        }
+
+		private static string _IBGECidadesUrl;
+
+		public static string IBGECidadesUrl
+        {
+            get
+            {
+				if (String.IsNullOrEmpty(_IBGECidadesUrl))
+					_IBGECidadesUrl = Configuration["IBGECidadesUrl"];
+
+				return _IBGECidadesUrl;
+            }
+        }
     }
 }

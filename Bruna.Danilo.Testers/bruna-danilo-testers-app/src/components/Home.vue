@@ -21,13 +21,14 @@
        </div>
     </div>
     <div v-if="isAuthenticated()">
-      Logged in home
+      <button @click="atualizaCidadesEstados">Atualiza</button>
       </div>
   </div>
 </template>
 
 <script>
 import AccountService from "@/services/account-service";
+import IBGEService from "@/services/ibge-service";
 import BdLogin from "@/components/login/BdLogin";
 import BdRegister from "@/components/login/BdRegister";
 import bFormGroup from "bootstrap-vue/es/components/form-group/form-group";
@@ -48,6 +49,16 @@ export default {
   methods: {
     isAuthenticated() {
       return AccountService.isAuthenticated();
+    },
+    atualizaCidadesEstados() {
+      IBGEService.atualizaCidadesEstados().then(
+        resp => {
+          console.log(resp);
+        },
+        error => {
+          console.log(error);
+        }
+      );
     }
   }
 };

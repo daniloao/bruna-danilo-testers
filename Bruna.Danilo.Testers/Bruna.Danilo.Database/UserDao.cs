@@ -44,8 +44,10 @@ namespace Bruna.Danilo.Testers.Database
             currentUser.AccessFailedCount = user.AccessFailedCount;
             currentUser.FullName = user.FullName;
             currentUser.Sex = user.Sex;
-            currentUser.City = user.City;
+            currentUser.CidadeId = user.CidadeId;
+			currentUser.Cidade = user.Cidade;
             currentUser.AcceptTerms = user.AcceptTerms;
+			currentUser.EstadoId = user.EstadoId;
 			currentUser.Estado = user.Estado;
 		}
 	}
