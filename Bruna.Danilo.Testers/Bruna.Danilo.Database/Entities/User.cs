@@ -41,15 +41,15 @@ namespace Bruna.Danilo.Testers.Database.Entities
 		public string Sex { get; set; }//nvarchar(1)
 
 
-		public int CidadeId { get; set; }
+		public int? CidadeId { get; set; }
 
 		[ForeignKey("CidadeId")]
 		public Cidade Cidade { get; set; }
 
+		public int? EstadoId { get; set; }
+
 		[ForeignKey("EstadoId")]
 		public Estado Estado { get; set; }
-
-        public int EstadoId { get; set; }
 
 		[Required]
 		public bool AcceptTerms { get; set; }//bit

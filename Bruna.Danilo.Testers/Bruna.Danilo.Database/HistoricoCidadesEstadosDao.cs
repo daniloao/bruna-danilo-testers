@@ -15,7 +15,7 @@ namespace Bruna.Danilo.Testers.Database
 
 		public async Task<int> SaveAsync(HistoricoCidadesEstados historicoCidadesEstados)
 		{
-			historicoCidadesEstados.TimeStamp = DateTime.UtcNow;
+			historicoCidadesEstados.TimeStamp = DateTime.Now;
 			_testersContext.HistoricoCidadesEstados.Add(historicoCidadesEstados);
 			return await _testersContext.SaveChangesAsync();
 		}

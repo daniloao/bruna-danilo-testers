@@ -161,9 +161,9 @@ export default {
         confirmEmail: "",
         fullName: "",
         sex: "F",
-        estado: "",
+        estado: 1,
         selectedEstado: {},
-        cidade: "",
+        cidade: 1,
         acceptTerms: false
       },
       sexos: [

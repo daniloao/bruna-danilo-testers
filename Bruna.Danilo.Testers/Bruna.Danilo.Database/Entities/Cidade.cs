@@ -11,7 +11,7 @@ namespace Bruna.Danilo.Testers.Database.Entities
         public int Id { get; set; }
         
 		[Required]
-        public string EstadoId { get; set; }
+        public int EstadoId { get; set; }
 
 		[ForeignKey("EstadoId")]
 		public Estado Estado { get; set; }

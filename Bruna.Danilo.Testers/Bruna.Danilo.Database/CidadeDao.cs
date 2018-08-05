@@ -45,15 +45,23 @@ namespace Bruna.Danilo.Testers.Database
 			return 1;
         }
 
-		public async Task<int> AtualizaEstadosAsync(IList<Cidade> cidades)
+		public async Task<int> AtualizaCidadesAsync(IList<Cidade> cidades, int estadoId)
         {
             int result = 0;
             using (var transaction = this._testersContext.Database.BeginTransaction())
             {
                 try
                 {
-                     await this.ClearAllAsync(false);
-                    await this.SaveRangeAsync(cidades, false);
+					foreach (var currentCidade in cidades)
+                    {
+						var cidade = this._testersContext.Cidades.Find(currentCidade.Id);
+						if (cidade == null)
+						{
+							currentCidade.EstadoId = estadoId;
+							await this.SaveAsync(currentCidade, false);
+						}
+                    }
+                    
 					result = await this._testersContext.SaveChangesAsync();
                     transaction.Commit();
                 }

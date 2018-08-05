@@ -4,14 +4,16 @@ using Bruna.Danilo.Testers.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Bruna.Danilo.Testers.Api.Migrations.SqliteMigrations
 {
     [DbContext(typeof(TestersContext))]
-    partial class TestersContextModelSnapshot : ModelSnapshot
+    [Migration("20180805223531_CidadesEstados3")]
+    partial class CidadesEstados3
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

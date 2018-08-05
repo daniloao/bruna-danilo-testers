@@ -28,10 +28,9 @@ namespace Bruna.Danilo.Testers.Api.Mappers
 			user.AccessFailedCount = identityUser.AccessFailedCount;
 			user.FullName = model.FullName;
 			user.Sex = model.Sex;
-			// user.Cidade = model.Cidade;
-			// user.CidadeId = model.CidadeId;
+			user.CidadeId = model.Cidade;
 			user.AcceptTerms = model.AcceptTerms;
-			// user.Estado = model.Estado;
+			user.EstadoId = model.Estado;
 
 			return user;
         }

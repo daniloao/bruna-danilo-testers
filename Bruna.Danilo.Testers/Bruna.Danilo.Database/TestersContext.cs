@@ -35,6 +35,9 @@ namespace Bruna.Danilo.Testers.Database
 			builder.Entity<Estado>()
                    .Property(c => c.Id)
                    .ValueGeneratedNever();
+			builder.Entity<Cidade>()
+                   .Property(c => c.Id)
+                   .ValueGeneratedNever();
 			builder.Entity<Estado>()
                    .HasIndex(b => b.Sigla);
         }

@@ -4,14 +4,16 @@ using Bruna.Danilo.Testers.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Bruna.Danilo.Testers.Api.Migrations.SqliteMigrations
 {
     [DbContext(typeof(TestersContext))]
-    partial class TestersContextModelSnapshot : ModelSnapshot
+    [Migration("20180805213326_CidadesEstados")]
+    partial class CidadesEstados
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,7 +23,9 @@ namespace Bruna.Danilo.Testers.Api.Migrations.SqliteMigrations
 
             modelBuilder.Entity("Bruna.Danilo.Testers.Database.Entities.Cidade", b =>
                 {
-                    b.Property<int>("Id");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int>("EstadoId");
 
@@ -83,7 +87,7 @@ namespace Bruna.Danilo.Testers.Api.Migrations.SqliteMigrations
 
                     b.Property<int>("AccessFailedCount");
 
-                    b.Property<int?>("CidadeId");
+                    b.Property<int>("CidadeId");
 
                     b.Property<string>("ConcurrencyStamp");
 
@@ -92,7 +96,7 @@ namespace Bruna.Danilo.Testers.Api.Migrations.SqliteMigrations
 
                     b.Property<bool>("EmailConfirmed");
 
-                    b.Property<int?>("EstadoId");
+                    b.Property<int>("EstadoId");
 
                     b.Property<string>("FullName");
 
@@ -157,11 +161,13 @@ namespace Bruna.Danilo.Testers.Api.Migrations.SqliteMigrations
                 {
                     b.HasOne("Bruna.Danilo.Testers.Database.Entities.Cidade", "Cidade")
                         .WithMany()
-                        .HasForeignKey("CidadeId");
+                        .HasForeignKey("CidadeId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("Bruna.Danilo.Testers.Database.Entities.Estado", "Estado")
                         .WithMany()
-                        .HasForeignKey("EstadoId");
+                        .HasForeignKey("EstadoId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
         }

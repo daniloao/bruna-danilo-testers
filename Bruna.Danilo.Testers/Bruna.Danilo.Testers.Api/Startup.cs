@@ -80,25 +80,6 @@ namespace Bruna.Danilo.Testers.Api
                         ClockSkew = TimeSpan.Zero // remove delay of token when expire
                                 };
                 });
-                     
-
-           // JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear(); // => remove default claims
-            //services
-			//	.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-              //  .AddJwtBearer(cfg =>
-               // {
-                 //   cfg.RequireHttpsMetadata = false;
-                 //   cfg.SaveToken = true;
-                 //   cfg.TokenValidationParameters = new TokenValidationParameters
-                 //   {
-			//		    ValidateIssuer = true,
-             //           ValidIssuer = AppSettings.JwtIssuer,
-              //          ValidateAudience = true,
-			///		    ValidAudience = AppSettings.JwtIssuer,
-		//			    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(AppSettings.JwtKey)),
-	//				    ValidateIssuerSigningKey = true
-     //               };
-      //          });
 
 			services.AddMvc();
         }
