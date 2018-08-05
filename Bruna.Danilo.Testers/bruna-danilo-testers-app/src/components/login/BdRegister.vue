@@ -13,7 +13,7 @@
                 label-for="nome">
           <bd-validable-input type="text"
                               name="fullName"
-                              placeholder="Nome"
+                              placeholder="Digite seu nome completo"
                               :model.sync="model.fullName"
                               :atualizaModel="atualizaModel"
                               :modelState.sync="modelState"></bd-validable-input>
@@ -26,7 +26,7 @@
 
             <bd-validable-input type="text"
                               name="email"
-                              placeholder="Entre seu email"
+                              placeholder="Digite seu email"
                               :model.sync="model.email"
                               :atualizaModel="atualizaModel"
                               :modelState.sync="modelState"></bd-validable-input>
@@ -208,7 +208,6 @@ export default {
       }
     },
     register() {
-      this.model.name = this.model.email;
       AccountService.register(this.model).then(
         response => {
           this.model.password = "";

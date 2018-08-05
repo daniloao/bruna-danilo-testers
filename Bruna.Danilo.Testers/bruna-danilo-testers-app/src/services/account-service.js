@@ -14,7 +14,7 @@ export default {
   },
   login(user) {
     this.setUp();
-    user.email = user.name;
+    user.name = user.email;
     return this.resource.login(user).then((response) => {
       console.log("AccountService-response");
       console.log(response);
@@ -23,7 +23,7 @@ export default {
   },
   register(user) {
     this.setUp();
-    user.email = user.name;
+    user.name = user.email;
     return this.resource.register(user).then((response) => {
       Vue.ls.set('user', response.data);
     });

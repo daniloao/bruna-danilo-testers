@@ -10,21 +10,25 @@
           <b-form-group horizontal
                 label="Email:"
                 label-class="text-sm-right"
-                label-for="email-login">
+                label-for="email">
 
-          <b-form-input id="email-login" 
-                          type="text" 
-                          placeholder="Entre seu email"
-                          v-model="model.name"></b-form-input>
+            <bd-validable-input type="text"
+                              name="email"
+                              placeholder="Digite seu email"
+                              :model.sync="model.email"
+                              :atualizaModel="atualizaModel"
+                              :modelState.sync="modelState"></bd-validable-input>
           </b-form-group>
           <b-form-group horizontal
             label="Senha:"
             label-class="text-sm-right"
-            label-for="senha-login">
-              <b-form-input id="senha-login" 
-                              type="password" 
-                              placeholder="Entre sua senha"
-                              v-model="model.password"></b-form-input>
+            label-for="password">
+                        <bd-validable-input type="password"
+                              name="password"
+                              placeholder="Digite sua senha"
+                              :model.sync="model.password"
+                              :atualizaModel="atualizaModel"
+                              :modelState.sync="modelState"></bd-validable-input>
           </b-form-group>
           <b-form-group> 
             <b-button @click="login" variant="primary">Login</b-button>
@@ -35,7 +39,7 @@
 </template>
 
 <script>
-import bFormInput from "bootstrap-vue/es/components/form-input/form-input";
+import BdValidableInput from "@/components/directives/BdValidableInput";
 import bButton from "bootstrap-vue/es/components/button/button";
 import bFormGroup from "bootstrap-vue/es/components/form-group/form-group";
 import bCard from "bootstrap-vue/es/components/card/card";
@@ -43,7 +47,7 @@ import AccountService from "@/services/account-service";
 
 export default {
   components: {
-    bFormInput,
+    BdValidableInput,
     bButton,
     bFormGroup,
     bCard
@@ -54,12 +58,33 @@ export default {
         name: "",
         password: "",
         email: ""
-      }
+      },
+      modelState: {}
     };
   },
   methods: {
     login() {
-      AccountService.login(this.model);
+      AccountService.login(this.model).then(
+        response => {
+          this.model.password = "";
+        },
+        error => {
+          this.model.password = "";
+          if (error.statusText === "Bad Request") {
+            setInterval(() => {
+              this.modelState = error.body;
+            }, 500);
+          } else {
+            MessageService.showAlert(
+              "Algo deu errado",
+              "Estamos trabalhando para solucionar o problema."
+            );
+          }
+        }
+      );
+    },
+    atualizaModel(propName, valor) {
+      this.model[propName] = valor;
     }
   }
 };

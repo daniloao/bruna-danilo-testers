@@ -2,12 +2,22 @@
   <div>
      <div class="row" v-if="!isAuthenticated()">
       <div class="large-8 column login-box-parent">
-            <div>
-      <h1>Texto</h1>
-    </div>
+        <div>
+          <h1>Texto</h1>
+        </div>
       </div>
        <div class="large-8 column login-box-parent">
-        <bd-register></bd-register>
+         <b-card no-body>
+  <b-tabs card>
+    <b-tab title="Cadastre-se" active>
+      <bd-register></bd-register>
+    </b-tab>
+    <b-tab title="Login">
+      <bd-login></bd-login>
+    </b-tab>
+  </b-tabs>
+</b-card>
+        
        </div>
     </div>
     <div v-if="isAuthenticated()">
@@ -21,12 +31,16 @@ import AccountService from "@/services/account-service";
 import BdLogin from "@/components/login/BdLogin";
 import BdRegister from "@/components/login/BdRegister";
 import bFormGroup from "bootstrap-vue/es/components/form-group/form-group";
+import bTabs from "bootstrap-vue/es/components/tabs/tabs";
+import bTab from "bootstrap-vue/es/components/tabs/tab";
 
 export default {
   components: {
     BdLogin,
     BdRegister,
-    bFormGroup
+    bFormGroup,
+    bTabs,
+    bTab
   },
   data() {
     return {};

@@ -1,7 +1,7 @@
 <template>
     <div>
         <div v-if="!isSelect() && !isRadio() && !isCheckbox()"> 
-            <b-form-input :id="name" 
+            <b-form-input 
                             :type="type" 
                             :placeholder="placeholder"
                             v-model="modelMutatable"
@@ -11,17 +11,15 @@
             <model-select :options="options"
                             v-model="modelMutatable"
                             :placeholder="placeholder"
-                            :id="name"
                             :name="name"
                             :isDisabled="isDisabled"></model-select>
         </div>
         <div v-if="isRadio()"> 
-           <b-form-radio-group :id="name" v-model="modelMutatable" :options="options" :name="name">
+           <b-form-radio-group v-model="modelMutatable" :options="options" :name="name">
            </b-form-radio-group>
         </div>
         <div v-if="isCheckbox()"> 
           <input :type="type" 
-                :id="name" 
                 v-model="modelMutatable"
                 :name="name">
           <label :for="name">{{ placeholder }}</label>
