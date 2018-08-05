@@ -27,7 +27,7 @@
             <bd-validable-input type="text"
                               name="email"
                               placeholder="Entre seu email"
-                              :model.sync="model.name"
+                              :model.sync="model.email"
                               :atualizaModel="atualizaModel"
                               :modelState.sync="modelState"></bd-validable-input>
           </b-form-group>
@@ -138,10 +138,11 @@
 import bButton from "bootstrap-vue/es/components/button/button";
 import bFormGroup from "bootstrap-vue/es/components/form-group/form-group";
 import bCard from "bootstrap-vue/es/components/card/card";
+import BdValidableInput from "@/components/directives/BdValidableInput";
 import _ from "lodash";
 import AccountService from "@/services/account-service";
 import IBGEService from "@/services/ibge-service";
-import BdValidableInput from "@/components/directives/BdValidableInput";
+import MessageService from "@/services/message-service";
 
 export default {
   components: {
@@ -207,23 +208,39 @@ export default {
       }
     },
     register() {
+      this.model.name = this.model.email;
       AccountService.register(this.model).then(
         response => {
-          console.log("response");
-          console.log(response);
+          this.model.password = "";
+          this.model.confirmPassword = "";
+          MessageService.showAlert(
+            "Tester cadastrado com sucesso",
+            "Parabéns você acaba de se tornar um tester, e já pode começar a usufruir das suas vantagens."
+          );
         },
         error => {
-          if (error.body.Cidade) {
-            _.forEach(error.body.Cidade, cid => {
-              this.cidadesEstadosModelState.push(cid);
-            });
+          this.model.password = "";
+          this.model.confirmPassword = "";
+          if (error.statusText === "Bad Request") {
+            if (error.body.Estado) {
+              _.forEach(error.body.Estado, est => {
+                this.cidadesEstadosModelState.push(est);
+              });
+            }
+            if (error.body.Cidade) {
+              _.forEach(error.body.Cidade, cid => {
+                this.cidadesEstadosModelState.push(cid);
+              });
+            }
+            setInterval(() => {
+              this.modelState = error.body;
+            }, 500);
+          } else {
+            MessageService.showAlert(
+              "Algo deu errado",
+              "Estamos trabalhando para solucionar o problema."
+            );
           }
-          if (error.body.Estado) {
-            _.forEach(error.body.Estado, est => {
-              this.cidadesEstadosModelState.push(est);
-            });
-          }
-          this.modelState = error.body;
         }
       );
     },

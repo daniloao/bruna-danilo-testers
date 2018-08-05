@@ -31,11 +31,9 @@ Vue.config.productionTip = false;
 
 Vue.http.interceptors.push((request, next) => {
   NProgress.start();
-  const token = Vue.ls.get('token');
-
-  if (token) {
-    const parsedToken = JSON.parse(token);
-    request.headers.set('Authorization', `${parsedToken.token_type} ${parsedToken.access_token}`);
+  const user = Vue.ls.get('user');
+  if (user) {
+    request.headers.set('Authorization', `Bearer ${user.token}`);
   }
 
   next((response) => {

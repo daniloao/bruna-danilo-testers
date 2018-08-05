@@ -46,6 +46,7 @@ namespace Bruna.Danilo.Testers.Database
             currentUser.Sex = user.Sex;
             currentUser.City = user.City;
             currentUser.AcceptTerms = user.AcceptTerms;
+			currentUser.Estado = user.Estado;
 		}
 	}
 }

@@ -87,7 +87,10 @@ namespace Bruna.Danilo.Testers.Api.Controllers
                 }
 
     			foreach(var currentError in result.Errors){
-    				this.ModelState.AddModelError(currentError.Code, $"{currentError.Code} - {currentError.Description}");
+                    if(currentError.Code == "DuplicateUserName")
+					    this.ModelState.AddModelError("Email", currentError.Description);
+					else
+						this.ModelState.AddModelError("Password", currentError.Description);
     			}
 
     			return BadRequest(this.ModelState);

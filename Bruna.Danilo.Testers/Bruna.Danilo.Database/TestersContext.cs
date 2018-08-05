@@ -24,15 +24,18 @@ namespace Bruna.Danilo.Testers.Database
 			builder.Entity<User>()
                         .HasIndex(b => b.FullName);
 			builder.Entity<User>()
-                .HasIndex(b => b.Sex);
+                    .HasIndex(b => b.Sex);
 			builder.Entity<User>()
-            .HasIndex(b => b.City);
+                    .HasIndex(b => b.City);
 			builder.Entity<User>()
-            .HasIndex(b => b.Estado);
+                    .HasIndex(b => b.Estado);
 			builder.Entity<User>()
-            .HasIndex(b => b.AcceptTerms);
+			       .HasIndex(b => b.AcceptTerms);
 			builder.Ignore<Role>();
 			builder.Ignore<UserRole>();
+			builder.Entity<User>()
+			       .Property(b => b.AcceptTerms)
+                   .HasDefaultValue(false);
         }
 
 		public DbSet<Role> Roles { get; set; }

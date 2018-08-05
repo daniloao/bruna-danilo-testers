@@ -30,7 +30,7 @@ namespace Bruna.Danilo.Testers.Api.Mappers
 			user.Sex = model.Sex;
 			user.City = model.Cidade;
 			user.AcceptTerms = model.AcceptTerms;
-			user.Estado = model.Estado.Value;
+			user.Estado = model.Estado;
 
 			return user;
         }

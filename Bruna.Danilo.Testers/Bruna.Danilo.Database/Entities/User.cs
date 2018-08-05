@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -33,16 +34,17 @@ namespace Bruna.Danilo.Testers.Database.Entities
 		public bool LockoutEnabled { get; set; }//bit
 		[Required]
 		public int AccessFailedCount { get; set; }//int
-		[Required]
+
 		public string FullName { get; set; }//nvarchar(max)
-		[Required]
+
 		[StringLength(1)]
 		public string Sex { get; set; }//nvarchar(1)
-		[Required]
+
 		public string City { get; set; }//nvarchar(max)
-		[Required]
+
 		[StringLength(2)]
         public string Estado { get; set; }//nvarchar(max)
+
 		[Required]
 		public bool AcceptTerms { get; set; }//bit
     }

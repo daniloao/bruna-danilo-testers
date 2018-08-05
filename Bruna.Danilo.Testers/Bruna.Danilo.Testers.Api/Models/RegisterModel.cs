@@ -21,12 +21,19 @@ namespace Bruna.Danilo.Testers.Api.Models
         [StringLength(1, ErrorMessage = "O campo sexo está inválido")]
         public string Sex { get; set; }//nvarchar(1)
 
+		[StringLength(2, ErrorMessage = "O campo estado está inválido")]
         [Required(ErrorMessage = "Favor preencher o estado")]
-        public EstadoModel Estado { get; set; }//nvarchar(2)
+        public string Estado { get; set; }//nvarchar(2)
         [Required(ErrorMessage = "Favor preencher a cidade")]
         public string Cidade { get; set; }//nvarchar(max)
         [Required(ErrorMessage = "Favor aceitar os termos e condições")]
         [Range(typeof(bool), "true", "true", ErrorMessage = "Favor aceitar os termos e condições")]
         public bool AcceptTerms { get; set; }//bit
+
+		public override UserModel ClearPassword()
+        {
+            this.ConfirmPassword = String.Empty;
+            return base.ClearPassword();
+        }
     }
 }

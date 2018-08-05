@@ -4,14 +4,16 @@ using Bruna.Danilo.Testers.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Bruna.Danilo.Testers.Api.Migrations.SqliteMigrations
 {
     [DbContext(typeof(TestersContext))]
-    partial class TestersContextModelSnapshot : ModelSnapshot
+    [Migration("20180805123454_Usuarios2")]
+    partial class Usuarios2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -25,9 +27,7 @@ namespace Bruna.Danilo.Testers.Api.Migrations.SqliteMigrations
                         .ValueGeneratedOnAdd()
                         .HasMaxLength(450);
 
-                    b.Property<bool>("AcceptTerms")
-                        .ValueGeneratedOnAdd()
-                        .HasDefaultValue(false);
+                    b.Property<bool>("AcceptTerms");
 
                     b.Property<int>("AccessFailedCount");
 

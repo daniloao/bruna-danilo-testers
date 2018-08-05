@@ -1,6 +1,6 @@
 <template>
   <div>
-     <div class="row">
+     <div class="row" v-if="!isAuthenticated()">
       <div class="large-8 column login-box-parent">
             <div>
       <h1>Texto</h1>
@@ -10,6 +10,9 @@
         <bd-register></bd-register>
        </div>
     </div>
+    <div v-if="isAuthenticated()">
+      Logged in home
+      </div>
   </div>
 </template>
 
@@ -28,7 +31,11 @@ export default {
   data() {
     return {};
   },
-  methods: {}
+  methods: {
+    isAuthenticated() {
+      return AccountService.isAuthenticated();
+    }
+  }
 };
 </script>
 

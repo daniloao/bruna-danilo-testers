@@ -30,3 +30,12 @@ body {
     margin-left: 3%;
     margin-right: 3%;
 }
+
+.header {
+    width: 100%;
+}
+
+.header-loggedin {
+    width: 100%;
+    text-align: right;
+}

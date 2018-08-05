@@ -20,7 +20,7 @@ namespace Bruna.Danilo.Testers.Api.Models
 		public string Email { get; set; }
 		public string Token { get; set; }
 
-		public UserModel ClearPassword(){
+		public virtual UserModel ClearPassword(){
 			this.Password = String.Empty;
 			return this;
 		}

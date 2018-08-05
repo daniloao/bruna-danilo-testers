@@ -16,11 +16,9 @@ export default {
     this.setUp();
     user.email = user.name;
     return this.resource.login(user).then((response) => {
+      console.log("AccountService-response");
+      console.log(response);
       Vue.ls.set('user', response.data);
-      Vue.ls.set('token', JSON.stringify(response.data.token));
-    }, (error) => {
-      console.log('error');
-      console.log(error);
     });
   },
   register(user) {
@@ -28,16 +26,14 @@ export default {
     user.email = user.name;
     return this.resource.register(user).then((response) => {
       Vue.ls.set('user', response.data);
-      Vue.ls.set('token', JSON.stringify(response.data.token));
     });
   },
   logOut() {
-    Vue.ls.remove('token');
     Vue.ls.remove('user');
-    this.$router.push({ path: '/' });
+    window.location.href = "/";
   },
   isAuthenticated() {
-    return Vue.ls.get('token') !== null && Vue.ls.get('user') !== null;
+    return Vue.ls.get('user') !== null;
   },
   hasRole(roleName) {
     if (!Vue.ls.get('user')) {

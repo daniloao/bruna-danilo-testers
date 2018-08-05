@@ -35,6 +35,7 @@
     <Compile Remove="Controllers\ValuesController.cs" />
     <Compile Remove="Models\ValidationError.cs" />
     <Compile Remove="Models\BaseModel.cs" />
+    <Compile Remove="Models\EstadoModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Bruna.Danilo.Testers.Logs\Bruna.Danilo.Testers.Logs.csproj" />
