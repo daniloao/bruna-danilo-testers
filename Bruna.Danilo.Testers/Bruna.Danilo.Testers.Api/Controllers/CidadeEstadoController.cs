@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Bruna.Danilo.Testers.Api.Models;
 using Bruna.Danilo.Testers.Database;
 using Bruna.Danilo.Testers.Database.Entities;
 using Bruna.Danilo.Testers.Logs;
@@ -34,6 +35,41 @@ namespace Bruna.Danilo.Testers.Api.Controllers
 			this._estadoDao = estadoDao;
 			this._userManager = userManager;
 			this._historicoCidadesEstadosDao = historicoCidadesEstadosDao;
+        }
+
+		[HttpGet("cidades")]
+		public IActionResult GetCidades(string estado){
+			try
+			{
+				int iEstado = 0;
+				if (Int32.TryParse(estado, out iEstado))
+				{
+					return Ok(_cidadeDao.GetByEstado(iEstado));
+				}
+				else
+				{
+					return NotFound(estado);
+				}
+			}
+			catch (Exception ex)
+			{
+				_logger.ErrorAsync(ex, null);
+                throw ex;
+			}
+		}
+
+		[HttpGet("estados")]
+        public  IActionResult GetEstados()
+        {
+            try
+            {
+                return Ok(_estadoDao.GetAll());
+            }
+            catch (Exception ex)
+            {
+                _logger.ErrorAsync(ex, null);
+                throw ex;
+            }
         }
         
         [Authorize]

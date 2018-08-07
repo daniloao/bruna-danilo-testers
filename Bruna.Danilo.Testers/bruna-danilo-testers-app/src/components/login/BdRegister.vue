@@ -161,9 +161,9 @@ export default {
         confirmEmail: "",
         fullName: "",
         sex: "F",
-        estado: 1,
+        estado: "0",
         selectedEstado: {},
-        cidade: 1,
+        cidade: "0",
         acceptTerms: false
       },
       sexos: [
@@ -180,7 +180,8 @@ export default {
     "model.selectedEstado"() {
       this.cidadesEstadosModelState = [];
       this.model.estado = this.model.selectedEstado.value;
-      this.loadCidades(this.model.selectedEstado.id);
+      console.log(this.model.estado);
+      this.loadCidades(this.model.estado);
     },
     "model.cidade"() {
       this.cidadesEstadosModelState = [];
@@ -189,10 +190,14 @@ export default {
   methods: {
     loadCidades(estadoId) {
       this.cidades = [];
-      IBGEService.getCidades(estadoId).then(response => {
+      var cidade = {
+        estado: estadoId
+      };
+
+      IBGEService.getCidades(cidade).then(response => {
         response.data.forEach(currentCidade => {
           this.cidades.push({
-            value: currentCidade.nome,
+            value: `${currentCidade.id}`,
             text: currentCidade.nome
           });
         });
@@ -215,7 +220,11 @@ export default {
           MessageService.showAlert(
             "Tester cadastrado com sucesso",
             "Parabéns você acaba de se tornar um tester, e já pode começar a usufruir das suas vantagens."
-          );
+          ).then(() => {
+            setInterval(() => {
+              window.location.href = "/teste-produtos";
+            }, 1000);
+          });
         },
         error => {
           this.model.password = "";
@@ -247,8 +256,7 @@ export default {
       IBGEService.getEstados().then(response => {
         response.data.forEach(currentEstado => {
           this.estados.push({
-            id: currentEstado.id,
-            value: currentEstado.sigla,
+            value: `${currentEstado.id}`,
             text: currentEstado.sigla
           });
         });
@@ -259,14 +267,14 @@ export default {
     sortedEstados() {
       return _.sortBy(this.estados, [
         function(o) {
-          return o.value;
+          return o.text;
         }
       ]);
     },
     sortedCidades() {
       return _.sortBy(this.cidades, [
         function(o) {
-          return o.value;
+          return o.text;
         }
       ]);
     }

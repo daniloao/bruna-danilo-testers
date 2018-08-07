@@ -1,6 +1,7 @@
 ﻿using System;
 using Bruna.Danilo.Testers.Database.Entities;
 using Bruna.Danilo.Testers.Settings;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace Bruna.Danilo.Testers.Database
@@ -40,6 +41,8 @@ namespace Bruna.Danilo.Testers.Database
                    .ValueGeneratedNever();
 			builder.Entity<Estado>()
                    .HasIndex(b => b.Sigla);
+			builder.Entity<UserRole>()
+			       .HasKey(p => new { p.UserId, p.RoleId });
         }
 
 		public DbSet<Role> Roles { get; set; }

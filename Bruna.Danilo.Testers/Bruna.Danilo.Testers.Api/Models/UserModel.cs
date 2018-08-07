@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using Bruna.Danilo.Testers.Database.Entities;
 
 namespace Bruna.Danilo.Testers.Api.Models
 {
@@ -22,6 +24,8 @@ namespace Bruna.Danilo.Testers.Api.Models
 		public string Email { get; set; }
 
 		public string Token { get; set; }
+
+		public IList<UserRole> UserRoles { get; set; }
 
 		public virtual UserModel ClearPassword(){
 			this.Password = String.Empty;

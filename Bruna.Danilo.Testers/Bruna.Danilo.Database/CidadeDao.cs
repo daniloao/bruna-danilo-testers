@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Bruna.Danilo.Testers.Database.Entities;
 
@@ -12,6 +13,13 @@ namespace Bruna.Danilo.Testers.Database
 		public CidadeDao(TestersContext testersContext)
         {
             this._testersContext = testersContext;
+        }
+
+		public IList<Cidade> GetByEstado(int estado)
+        {
+            return this._testersContext.Cidades
+				       .ToList()
+				       .FindAll(currentCidade => currentCidade.EstadoId == estado);
         }
 
 		public async Task<int> ClearAllAsync(bool saveChanges = true)

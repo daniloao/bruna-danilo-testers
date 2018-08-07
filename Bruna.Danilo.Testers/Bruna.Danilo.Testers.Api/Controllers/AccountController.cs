@@ -14,64 +14,126 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Bruna.Danilo.Testers.Database;
 using Bruna.Danilo.Testers.Api.Mappers;
+using Bruna.Danilo.Testers.Database.Entities;
+using Microsoft.AspNetCore.Authorization;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace Bruna.Danilo.Testers.Api.Controllers
 {
     [Route("api/[controller]")]
-	[ValidateModel]
+    [ValidateModel]
     public class AccountController : Controller
     {
-		private readonly SignInManager<IdentityUser> _signInManager;
+        private readonly SignInManager<IdentityUser> _signInManager;
         private readonly UserManager<IdentityUser> _userManager;
-		private readonly Logger _logger;
-		private readonly UserDao _userDao;
+        private readonly Logger _logger;
+        private readonly UserDao _userDao;
+		private readonly UserRoleDao _userRoleDao;
 
-		public AccountController(
-        UserManager<IdentityUser> userManager,
-        SignInManager<IdentityUser> signInManager,
-		Logger logger,
-			UserDao userDao)
+        public AccountController(UserManager<IdentityUser> userManager,
+                                SignInManager<IdentityUser> signInManager,
+                                Logger logger,
+                                UserDao userDao,
+                                UserRoleDao userRoleDao)
         {
             _userManager = userManager;
             _signInManager = signInManager;
-			_logger = logger;
-			_userDao = userDao;
+            _logger = logger;
+            _userDao = userDao;
+			_userRoleDao = userRoleDao;
         }
 
-		[HttpPost("login")]
-		public async Task<IActionResult> Login([FromBody] UserModel model)
+        [HttpPost("login")]
+        public async Task<IActionResult> Login([FromBody] UserModel model)
         {
-			try
-			{
+            try
+            {
                 var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, false, false);
 
                 if (result.Succeeded)
                 {
                     var appUser = _userManager.Users.SingleOrDefault(r => r.Email == model.Email);
-    				model.Token = await GenerateJwtToken(model.Email, appUser);
-    				return Ok(model.ClearPassword());
+                    model.Token = await GenerateJwtToken(model.Email, appUser);
+					model.UserRoles = _userRoleDao.GetByUser(appUser.Id);
+                    return Ok(model.ClearPassword());
                 }
 
-    			return BadRequest("Login e/ou senha invalidos!");
-		    }
+                return BadRequest("Login e/ou senha invalidos!");
+            }
             catch (Exception ex)
             {
                 _logger.ErrorAsync(ex, null);
                 throw ex;
             }
         }
-
-		[HttpPost("register")]
-		public async Task<IActionResult> Register([FromBody] RegisterModel  model)
+		[Authorize]
+        [HttpPost("isAuthenticated")]
+        public  IActionResult IsAuthenticated(){
+			// Funcion is authorize, so if gets to here is authenticated
+            return Ok(true);
+        }
+        
+		[Authorize]
+        [HttpPost("logOut")]
+        public IActionResult LogOut()
+        {
+            _signInManager.SignOutAsync();
+            return Ok();
+        }
+        
+		[Authorize]
+        [HttpPost("hasRole")]
+        public async Task<IActionResult> HasRole(string role)
         {
 			try
-			{
-				if(!this.ModelState.IsValid)
-					return BadRequest(this.ModelState);
-				
-    			var user = new IdentityUser
+            { 
+                var appUser = await _userManager.GetUserAsync(this.User);
+                if (appUser == null)
+                    throw new Exception("Não autorizado");
+                
+                var rl = _userRoleDao.GetById(appUser.Id, role);
+                
+                return Ok(rl != null);
+			}
+            catch (Exception ex)
+            {
+                _logger.ErrorAsync(ex, null);
+                throw ex;
+            }
+
+        }
+        
+		[Authorize]
+        [HttpPost("getRoles")]
+        public async Task<IActionResult> GetRoles()
+        {
+			try
+			{            
+    			var appUser =  _userManager.GetUserId(this.User);
+				if (String.IsNullOrEmpty(appUser))
+                    throw new Exception("Não autorizado");
+                
+				var rl = _userRoleDao.GetByUser(appUser);
+
+                return Ok(rl);
+			}
+            catch (Exception ex)
+            {
+				_logger.ErrorAsync(ex, null);
+                throw ex;
+            }
+        }
+        
+        [HttpPost("register")]
+        public async Task<IActionResult> Register([FromBody] RegisterModel  model)
+        {
+            try
+            {
+                if(!this.ModelState.IsValid)
+                    return BadRequest(this.ModelState);
+                
+                var user = new IdentityUser
                 {
                     UserName = model.Name,
                     Email = model.Email
@@ -80,25 +142,26 @@ namespace Bruna.Danilo.Testers.Api.Controllers
 
                 if (result.Succeeded)
                 {
-					this._userDao.Update(model.ToEntity(user));
+                    this._userDao.Update(model.ToEntity(user));
                     await _signInManager.SignInAsync(user, false);
-    				model.Token = await GenerateJwtToken(model.Email, user);
+                    model.Token = await GenerateJwtToken(model.Email, user);
+					model.UserRoles = _userRoleDao.GetByUser(user.Id);
                     return Ok(model.ClearPassword());
                 }
 
-    			foreach(var currentError in result.Errors){
+                foreach(var currentError in result.Errors){
                     if(currentError.Code == "DuplicateUserName")
-					    this.ModelState.AddModelError("Email", currentError.Description);
-					else
-						this.ModelState.AddModelError("Password", currentError.Description);
-    			}
+                        this.ModelState.AddModelError("Email", currentError.Description);
+                    else
+                        this.ModelState.AddModelError("Password", currentError.Description);
+                }
 
-    			return BadRequest(this.ModelState);
-			}
+                return BadRequest(this.ModelState);
+            }
             catch (Exception ex)
             {
-				_logger.ErrorAsync(ex, null);
-				throw ex;
+                _logger.ErrorAsync(ex, null);
+                throw ex;
             }
         }
 
@@ -117,7 +180,7 @@ namespace Bruna.Danilo.Testers.Api.Controllers
 
             var token = new JwtSecurityToken(
                 AppSettings.JwtIssuer,
-				AppSettings.JwtIssuer,
+                AppSettings.JwtIssuer,
                 claims,
                 expires: expires,
                 signingCredentials: creds

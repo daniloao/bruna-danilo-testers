@@ -3,7 +3,8 @@ import Vue from 'vue';
 export default {
     resource: undefined,
     customActions: {
-        getEstados: { method: 'GET', url: '' },
+        getEstados: { method: 'GET', url: 'cidadeEstado/estados' },
+        getCidades: { method: 'GET', url: 'cidadeEstado/cidades' },
         atualizaCidadesEstados: { method: 'GET', url: 'cidadeEstado/atualizaCidadesEstados' }
     },
     setUp() {
@@ -13,13 +14,11 @@ export default {
     },
     getEstados() {
         this.setUp();
-        // return this.resource.getEstados();
-        return [];
+        return this.resource.getEstados();
     },
-    getCidades(estado) {
-        // var url = process.env.IBJE_CIDADE_URL.replace("{UF}", estado);
-        // return Vue.http.get(url);
-        return [];
+    getCidades(model) {
+        this.setUp();
+        return this.resource.getCidades(model);
     },
     atualizaCidadesEstados() {
         this.setUp();

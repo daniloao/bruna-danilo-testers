@@ -67,6 +67,8 @@ export default {
       AccountService.login(this.model).then(
         response => {
           this.model.password = "";
+          this.$router.push("teste-produtos");
+          this.$router.go();
         },
         error => {
           this.model.password = "";

@@ -52,6 +52,8 @@ namespace Bruna.Danilo.Testers.Api
 			services.AddTransient<EstadoDao>();
 			services.AddTransient<HistoricoCidadesEstadosDao>();
 			services.AddTransient<CidadeDao>();
+			services.AddTransient<UserRoleDao>();
+
 			// ===== Add Identity ========
             services.AddIdentity<IdentityUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
