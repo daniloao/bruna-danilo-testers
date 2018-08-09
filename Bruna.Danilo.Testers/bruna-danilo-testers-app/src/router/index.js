@@ -7,7 +7,7 @@ import TesteProdutos from '@/components/TesteProdutos';
 import CuponsDesconto from '@/components/CuponsDesconto';
 import CadastroCampanhas from '@/components/CadastroCampanhas';
 
-Vue.use(Router)
+Vue.use(Router);
 
 export default new Router({
   routes: [

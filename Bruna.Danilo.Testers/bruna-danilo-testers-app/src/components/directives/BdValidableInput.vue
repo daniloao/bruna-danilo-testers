@@ -1,25 +1,25 @@
 <template>
     <div>
-        <div v-if="!isSelect() && !isRadio() && !isCheckbox()"> 
-            <b-form-input 
-                            :type="type" 
+        <div v-if="!isSelect() && !isRadio() && !isCheckbox()">
+            <b-form-input
+                            :type="type"
                             :placeholder="placeholder"
                             v-model="modelMutatable"
                             :name="name"></b-form-input>
         </div>
-        <div v-if="isSelect()"> 
+        <div v-if="isSelect()">
             <model-select :options="options"
                             v-model="modelMutatable"
                             :placeholder="placeholder"
                             :name="name"
                             :isDisabled="isDisabled"></model-select>
         </div>
-        <div v-if="isRadio()"> 
+        <div v-if="isRadio()">
            <b-form-radio-group v-model="modelMutatable" :options="options" :name="name">
            </b-form-radio-group>
         </div>
-        <div v-if="isCheckbox()"> 
-          <input :type="type" 
+        <div v-if="isCheckbox()">
+          <input :type="type"
                 v-model="modelMutatable"
                 :name="name">
           <label :for="name">{{ placeholder }}</label>
@@ -33,15 +33,15 @@
 </template>
 
 <script>
-import { ModelSelect } from "vue-search-select";
-import bFormGroup from "bootstrap-vue/es/components/form-group/form-group";
-import bFormInput from "bootstrap-vue/es/components/form-input/form-input";
-import bAlert from "bootstrap-vue/es/components/alert/alert";
-import StringService from "@/services/string-service";
+import { ModelSelect } from 'vue-search-select';
+import bFormGroup from 'bootstrap-vue/es/components/form-group/form-group';
+import bFormInput from 'bootstrap-vue/es/components/form-input/form-input';
+import bAlert from 'bootstrap-vue/es/components/alert/alert';
+import StringService from '@/services/string-service';
 
 export default {
   components: {
-    "model-select": ModelSelect,
+    'model-select': ModelSelect,
     bFormInput,
     bAlert,
     bFormGroup
@@ -71,16 +71,16 @@ export default {
   },
   methods: {
     isSelect() {
-      return this.type === "select";
+      return this.type === 'select';
     },
     isRadio() {
-      return this.type === "radio";
+      return this.type === 'radio';
     },
     isCheckbox() {
-      return this.type === "checkbox";
+      return this.type === 'checkbox';
     }
   },
-  created() {},
+  created() { },
   watch: {
     modelState() {
       this.modelStateMutable = this.modelState;
@@ -106,9 +106,9 @@ export default {
     },
     modesStateMessages() {
       if (
-        this.modelStateMutable &&
-        this.modelStateMutable[this.nameCase] &&
-        this.modelStateMutable[this.nameCase].length > 0
+        this.modelStateMutable
+        && this.modelStateMutable[this.nameCase]
+        && this.modelStateMutable[this.nameCase].length > 0
       ) {
         return this.modelStateMutable[this.nameCase];
       }

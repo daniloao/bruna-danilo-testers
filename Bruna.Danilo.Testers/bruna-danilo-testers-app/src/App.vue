@@ -7,14 +7,24 @@
 </template>
 
 <script>
-import BdHeader from "@/components/shared/BdHeader";
-import BdMenu from "@/components/shared/BdMenu";
+import BdHeader from '@/components/shared/BdHeader';
+import BdMenu from '@/components/shared/BdMenu';
+
 export default {
   components: {
     BdHeader,
     BdMenu
   },
-  name: "App"
+  name: 'App',
+  created() {
+    window.addEventListener('beforeunload', this.logOut);
+  },
+  methods: {
+    logOut() {
+      console.log('logOut');
+      // AccountService.logOut();
+    }
+  }
 };
 </script>
 

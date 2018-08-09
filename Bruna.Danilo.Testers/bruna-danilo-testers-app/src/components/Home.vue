@@ -23,12 +23,12 @@
 </template>
 
 <script>
-import AccountService from "@/services/account-service";
-import BdLogin from "@/components/login/BdLogin";
-import BdRegister from "@/components/login/BdRegister";
-import bFormGroup from "bootstrap-vue/es/components/form-group/form-group";
-import bTabs from "bootstrap-vue/es/components/tabs/tabs";
-import bTab from "bootstrap-vue/es/components/tabs/tab";
+import AccountService from '@/services/account-service';
+import BdLogin from '@/components/login/BdLogin';
+import BdRegister from '@/components/login/BdRegister';
+import bFormGroup from 'bootstrap-vue/es/components/form-group/form-group';
+import bTabs from 'bootstrap-vue/es/components/tabs/tabs';
+import bTab from 'bootstrap-vue/es/components/tabs/tab';
 
 export default {
   components: {
@@ -49,7 +49,7 @@ export default {
 };
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
+<!-- Add 'scoped" attribute to limit CSS to this component only -->
 <style scoped>
 h1,
 h2 {

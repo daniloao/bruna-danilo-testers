@@ -12,8 +12,8 @@
 </template>
 
 <script>
-import Vue from "vue";
-import AccountService from "@/services/account-service";
+import Vue from 'vue';
+import AccountService from '@/services/account-service';
 
 export default {
   data() {
@@ -22,6 +22,8 @@ export default {
   methods: {
     logOut() {
       AccountService.logOut();
+      this.$router.push('/');
+      this.$router.go();
     },
     isAuthenticated() {
       return AccountService.isAuthenticated();
@@ -29,10 +31,10 @@ export default {
   },
   computed: {
     userName() {
-      let user = Vue.ls.get("user");
+      const user = Vue.ls.get('user');
       if (user) return user.email;
 
-      return "";
+      return '';
     }
   }
 };

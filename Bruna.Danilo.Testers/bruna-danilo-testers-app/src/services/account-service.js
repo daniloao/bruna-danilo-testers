@@ -1,5 +1,4 @@
 ﻿import Vue from 'vue';
-import MessageService from '@/services/message-service';
 
 export default {
   resource: undefined,
@@ -16,7 +15,7 @@ export default {
       this.resource = Vue.resource('', {}, this.customActions);
     }
   },
-  logOutApi(user) {
+  logOutApi() {
     this.setUp();
     return this.resource.logOut();
   },
@@ -24,7 +23,7 @@ export default {
     this.setUp();
     user.name = user.email;
     return this.resource.login(user).then((response) => {
-      console.log("AccountService-response");
+      console.log('AccountService-response');
       console.log(response);
       Vue.ls.set('user', response.data);
       Vue.ls.set('roles', response.data.userRoles);
@@ -41,7 +40,6 @@ export default {
   logOut() {
     this.logOutApi();
     this.removeLogin();
-    window.location.href = "/";
   },
   removeLogin() {
     Vue.ls.remove('user');
@@ -49,8 +47,7 @@ export default {
     Vue.ls.remove('lastSessionLoad');
   },
   isAuthenticated(shouldLoadSession = true) {
-    if (shouldLoadSession === true)
-      this.loadSession();
+    if (shouldLoadSession === true) this.loadSession();
     return Vue.ls.get('user') !== null;
   },
   hasRole(roleName) {
@@ -61,12 +58,12 @@ export default {
     }
     this.loadSession();
 
-    var roles = Vue.ls.get('roles');
+    const roles = Vue.ls.get('roles');
 
-    if (!roles || roles.length <= 0)
-      return false;
+    if (!roles || roles.length <= 0) return false;
 
-    var role = roles.find(r => { r.roleId === roleName });
+    const role = roles.find(r => r.roleId === roleName);
+
     return role !== null;
   },
   isAdmin() {
@@ -79,7 +76,7 @@ export default {
       return;
     }
 
-    this.resource.getRoles().then(response => {
+    this.resource.getRoles().then((response) => {
       Vue.ls.remove('roles');
       Vue.ls.set('roles', response.data);
     }, () => {
@@ -88,15 +85,15 @@ export default {
   },
   loadSession() {
     this.setUp();
-    var lastSessionLoad = Vue.ls.get('lastSessionLoad');
+    const lastSessionLoad = Vue.ls.get('lastSessionLoad');
 
     if (!lastSessionLoad) {
       this.forceLoadSession();
       return;
     }
 
-    let lastSessionLoadDate = new Date(lastSessionLoad);
-    let agora = new Date();
+    const lastSessionLoadDate = new Date(lastSessionLoad);
+    const agora = new Date();
     lastSessionLoadDate.setMinutes(lastSessionLoadDate.getMinutes() + 5);
     if (agora > lastSessionLoad) {
       this.forceLoadSession();
@@ -107,14 +104,14 @@ export default {
       Vue.ls.set('lastSessionLoad', new Date());
       this.loadRoles();
 
-      this.resource.isAuthenticated().then(response => {
+      this.resource.isAuthenticated().then((response) => {
         if (response.data !== true) {
           this.removeLogin();
         }
       },
-        error => {
+        () => {
           this.removeLogin();
         });
     }
   }
-}
+};

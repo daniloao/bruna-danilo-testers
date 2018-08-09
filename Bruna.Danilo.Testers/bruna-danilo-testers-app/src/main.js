@@ -2,8 +2,8 @@
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import AccountService from '@/services/account-service';
 import MessageService from '@/services/message-service';
-import 'bootstrap/dist/css/bootstrap.css'
-import 'bootstrap-vue/dist/bootstrap-vue.css'
+import 'bootstrap/dist/css/bootstrap.css';
+import 'bootstrap-vue/dist/bootstrap-vue.css';
 import 'vuejs-dialog/dist/vuejs-dialog.min.css';
 import 'nprogress/nprogress.css';
 import '@/assets/site.css';
@@ -14,14 +14,14 @@ import VueResource from 'vue-resource';
 import NProgress from 'nprogress';
 import VueLocalStorage from 'vue-ls';
 import VuejsDialog from 'vuejs-dialog';
-import BootstrapVue from 'bootstrap-vue'
-import { ModelSelect } from "vue-search-select";
+import BootstrapVue from 'bootstrap-vue';
+import { ModelSelect } from 'vue-search-select';
 
 Vue.use(VueResource);
 Vue.use(VuejsDialog);
 Vue.use(BootstrapVue);
 Vue.use(VueLocalStorage, {
-  namespace: 'testers_',
+  namespace: 'testers_'
 });
 
 Vue.component('model-select', ModelSelect);
@@ -50,12 +50,12 @@ Vue.http.interceptors.push((request, next) => {
       }
     }
   });
-
 });
 
-new Vue({
+(() => new Vue({
   el: '#app',
   router,
   components: { App },
-  template: '<App/>'
-});
+  template: '<App/>',
+  render: h => h(App)
+}))();

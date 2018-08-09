@@ -146,6 +146,7 @@ namespace Bruna.Danilo.Testers.Api.Controllers
                     await _signInManager.SignInAsync(user, false);
                     model.Token = await GenerateJwtToken(model.Email, user);
 					model.UserRoles = _userRoleDao.GetByUser(user.Id);
+					this.SendWellcomeEmail();
                     return Ok(model.ClearPassword());
                 }
 
@@ -165,7 +166,12 @@ namespace Bruna.Danilo.Testers.Api.Controllers
             }
         }
 
-        private async Task<string> GenerateJwtToken(string email, IdentityUser user)
+		private void SendWellcomeEmail()
+		{
+			// TODO: Wellcome email
+		}
+
+		private async Task<string> GenerateJwtToken(string email, IdentityUser user)
         {
             var claims = new List<Claim>
             {

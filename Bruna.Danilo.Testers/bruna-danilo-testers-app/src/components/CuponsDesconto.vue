@@ -1,5 +1,5 @@
 <template>
-  <div> 
+  <div>
     <h1>Cupons de Desconto</h1>
   </div>
 </template>

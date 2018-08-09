@@ -1,5 +1,5 @@
 <template>
-  <div> 
+  <div>
     <h1>Teste de Produtos</h1>
   </div>
 </template>
