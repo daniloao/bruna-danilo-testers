@@ -1,35 +1,26 @@
 <template>
-    <div>
-        <div v-if="!isSelect() && !isRadio() && !isCheckbox()">
-            <b-form-input
-                            :type="type"
-                            :placeholder="placeholder"
-                            v-model="modelMutatable"
-                            :name="name"></b-form-input>
-        </div>
-        <div v-if="isSelect()">
-            <model-select :options="options"
-                            v-model="modelMutatable"
-                            :placeholder="placeholder"
-                            :name="name"
-                            :isDisabled="isDisabled"></model-select>
-        </div>
-        <div v-if="isRadio()">
-           <b-form-radio-group v-model="modelMutatable" :options="options" :name="name">
-           </b-form-radio-group>
-        </div>
-        <div v-if="isCheckbox()">
-          <input :type="type"
-                v-model="modelMutatable"
-                :name="name">
-          <label :for="name">{{ placeholder }}</label>
-        </div>
-        <b-alert variant="danger" :show="showValidadtionMessage && modesStateMessages.length > 0">
-          <p class="validation-message" v-for="(message, key) in modesStateMessages" :key="key">
-            {{message}}
-          </p>
-          </b-alert>
+  <div>
+    <div v-if="!isSelect() && !isRadio() && !isCheckbox()">
+      <b-form-input :type="type" v-if="mask !== ''" v-mask="mask" :placeholder="placeholder" v-model="modelMutatable" :name="name"></b-form-input>
+      <b-form-input :type="type" v-if="mask === ''" :placeholder="placeholder" v-model="modelMutatable" :name="name"></b-form-input>
     </div>
+    <div v-if="isSelect()">
+      <model-select :options="options" v-model="modelMutatable" :placeholder="placeholder" :name="name" :isDisabled="isDisabled"></model-select>
+    </div>
+    <div v-if="isRadio()">
+      <b-form-radio-group v-model="modelMutatable" :options="options" :name="name">
+      </b-form-radio-group>
+    </div>
+    <div v-if="isCheckbox()">
+      <input :type="type" v-model="modelMutatable" :name="name">
+      <label :for="name">{{ placeholder }}</label>
+    </div>
+    <b-alert variant="danger" :show="showValidadtionMessage && modesStateMessages.length > 0">
+      <p class="validation-message" v-for="(message, key) in modesStateMessages" :key="key">
+        {{message}}
+      </p>
+    </b-alert>
+  </div>
 </template>
 
 <script>
@@ -48,7 +39,7 @@ export default {
   },
   props: {
     type: String,
-    model: String,
+    model: [String, Number, Object, Boolean, Array],
     placeholder: String,
     name: String,
     modelState: {},
@@ -56,10 +47,13 @@ export default {
     atualizaModel: Function,
     options: Array,
     isDisabled: Boolean,
-    checkboxModel: Boolean,
     showValidadtionMessage: {
       type: Boolean,
       default: true
+    },
+    mask: {
+      type: String,
+      default: ''
     }
   },
   data() {

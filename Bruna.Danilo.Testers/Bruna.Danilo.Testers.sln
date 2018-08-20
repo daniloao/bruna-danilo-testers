@@ -11,7 +11,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bruna.Danilo.Testers.Databa
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bruna.Danilo.Testers.Settings", "Bruna.Danilo.Testers.Settings\Bruna.Danilo.Testers.Settings.csproj", "{28C82600-9ADD-4E7A-8E77-DC9CE33ED3EF}"
 EndProject
-Project("{9344BDBB-3E7F-41FC-A0DD-8665D75EE146}") = "bruna-danilo-testers-app", "bruna-danilo-testers-app\bruna-danilo-testers-app.csproj", "{801EFD95-B065-4E93-8E0C-BD94B2FEFEC0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bruna.Danilo.Testers.Models", "Bruna.Danilo.Testers.Models\Bruna.Danilo.Testers.Models.csproj", "{05585C2E-2687-4188-B10E-8A10F2E34249}"
+EndProject
+Project("{9344BDBB-3E7F-41FC-A0DD-8665D75EE146}") = "bruna-danilo-testers-app", "bruna-danilo-testers-app\bruna-danilo-testers-app.csproj", "{291F32CA-F05A-4A6A-B80E-EF7F51701F1C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,9 +41,13 @@ Global
 		{28C82600-9ADD-4E7A-8E77-DC9CE33ED3EF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{28C82600-9ADD-4E7A-8E77-DC9CE33ED3EF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{28C82600-9ADD-4E7A-8E77-DC9CE33ED3EF}.Release|Any CPU.Build.0 = Release|Any CPU
-		{801EFD95-B065-4E93-8E0C-BD94B2FEFEC0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{801EFD95-B065-4E93-8E0C-BD94B2FEFEC0}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{801EFD95-B065-4E93-8E0C-BD94B2FEFEC0}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{801EFD95-B065-4E93-8E0C-BD94B2FEFEC0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{05585C2E-2687-4188-B10E-8A10F2E34249}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{05585C2E-2687-4188-B10E-8A10F2E34249}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{05585C2E-2687-4188-B10E-8A10F2E34249}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{05585C2E-2687-4188-B10E-8A10F2E34249}.Release|Any CPU.Build.0 = Release|Any CPU
+		{291F32CA-F05A-4A6A-B80E-EF7F51701F1C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{291F32CA-F05A-4A6A-B80E-EF7F51701F1C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{291F32CA-F05A-4A6A-B80E-EF7F51701F1C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{291F32CA-F05A-4A6A-B80E-EF7F51701F1C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

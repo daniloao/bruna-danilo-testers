@@ -6,7 +6,7 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using Bruna.Danilo.Testers.Settings;
-using Bruna.Danilo.Testers.Api.Models;
+using Bruna.Danilo.Testers.Api.Validate;
 using Bruna.Danilo.Testers.Logs;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -16,6 +16,7 @@ using Bruna.Danilo.Testers.Database;
 using Bruna.Danilo.Testers.Api.Mappers;
 using Bruna.Danilo.Testers.Database.Entities;
 using Microsoft.AspNetCore.Authorization;
+using Bruna.Danilo.Testers.Models;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -55,7 +56,7 @@ namespace Bruna.Danilo.Testers.Api.Controllers
                 {
                     var appUser = _userManager.Users.SingleOrDefault(r => r.Email == model.Email);
                     model.Token = await GenerateJwtToken(model.Email, appUser);
-					model.UserRoles = _userRoleDao.GetByUser(appUser.Id);
+					model.UserRoles = _userRoleDao.GetByUser(appUser.Id).ToModels();
                     return Ok(model.ClearPassword());
                 }
 
@@ -145,7 +146,7 @@ namespace Bruna.Danilo.Testers.Api.Controllers
                     this._userDao.Update(model.ToEntity(user));
                     await _signInManager.SignInAsync(user, false);
                     model.Token = await GenerateJwtToken(model.Email, user);
-					model.UserRoles = _userRoleDao.GetByUser(user.Id);
+					model.UserRoles = _userRoleDao.GetByUser(user.Id).ToModels();
 					this.SendWellcomeEmail();
                     return Ok(model.ClearPassword());
                 }

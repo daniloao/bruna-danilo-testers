@@ -19,6 +19,131 @@ namespace Bruna.Danilo.Testers.Api.Migrations.SqliteMigrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+            modelBuilder.Entity("Bruna.Danilo.Testers.Database.Entities.Anunciante", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("CreatedById")
+                        .HasMaxLength(450);
+
+                    b.Property<DateTime>("CreatedDate");
+
+                    b.Property<string>("Descricao");
+
+                    b.Property<bool>("IsActive")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(true);
+
+                    b.Property<string>("Nome")
+                        .IsRequired();
+
+                    b.Property<string>("Observacao");
+
+                    b.Property<DateTime?>("UpdateDate");
+
+                    b.Property<string>("UpdatedById")
+                        .HasMaxLength(450);
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CreatedById");
+
+                    b.HasIndex("Nome");
+
+                    b.HasIndex("UpdatedById");
+
+                    b.ToTable("Anunciante");
+                });
+
+            modelBuilder.Entity("Bruna.Danilo.Testers.Database.Entities.Campanha", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("AnuncianteId");
+
+                    b.Property<string>("Chave")
+                        .IsRequired()
+                        .HasMaxLength(450);
+
+                    b.Property<int?>("CidadeId");
+
+                    b.Property<int>("ClienteId");
+
+                    b.Property<string>("CreatedById")
+                        .HasMaxLength(450);
+
+                    b.Property<DateTime>("CreatedDate");
+
+                    b.Property<string>("Cupom");
+
+                    b.Property<DateTime?>("DataFim");
+
+                    b.Property<DateTime>("DataInicio");
+
+                    b.Property<int?>("EstadoId");
+
+                    b.Property<bool>("IsActive")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(true);
+
+                    b.Property<string>("LinkTrackeado")
+                        .IsRequired();
+
+                    b.Property<byte[]>("Logo");
+
+                    b.Property<string>("LogoUrl");
+
+                    b.Property<string>("Texto");
+
+                    b.Property<int>("TipoCampanhaId");
+
+                    b.Property<string>("Titulo")
+                        .IsRequired();
+
+                    b.Property<DateTime?>("UpdateDate");
+
+                    b.Property<string>("UpdatedById")
+                        .HasMaxLength(450);
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AnuncianteId");
+
+                    b.HasIndex("Chave");
+
+                    b.HasIndex("CidadeId");
+
+                    b.HasIndex("ClienteId");
+
+                    b.HasIndex("CreatedById");
+
+                    b.HasIndex("Cupom");
+
+                    b.HasIndex("DataFim");
+
+                    b.HasIndex("DataInicio");
+
+                    b.HasIndex("EstadoId");
+
+                    b.HasIndex("IsActive");
+
+                    b.HasIndex("LinkTrackeado");
+
+                    b.HasIndex("TipoCampanhaId");
+
+                    b.HasIndex("Titulo");
+
+                    b.HasIndex("UpdatedById");
+
+                    b.HasIndex("DataInicio", "DataFim");
+
+                    b.ToTable("Campanha");
+                });
+
             modelBuilder.Entity("Bruna.Danilo.Testers.Database.Entities.Cidade", b =>
                 {
                     b.Property<int>("Id");
@@ -33,6 +158,75 @@ namespace Bruna.Danilo.Testers.Api.Migrations.SqliteMigrations
                     b.HasIndex("EstadoId");
 
                     b.ToTable("Cidade");
+                });
+
+            modelBuilder.Entity("Bruna.Danilo.Testers.Database.Entities.Cliente", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("CidadeId");
+
+                    b.Property<string>("Cnpj")
+                        .IsRequired()
+                        .HasMaxLength(20);
+
+                    b.Property<string>("Contato")
+                        .IsRequired();
+
+                    b.Property<string>("CreatedById")
+                        .HasMaxLength(450);
+
+                    b.Property<DateTime>("CreatedDate");
+
+                    b.Property<string>("Email")
+                        .IsRequired();
+
+                    b.Property<string>("Endereco")
+                        .IsRequired();
+
+                    b.Property<int>("EstadoId");
+
+                    b.Property<bool>("IsActive")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(true);
+
+                    b.Property<string>("NomeFantasia");
+
+                    b.Property<string>("RazaoSocial")
+                        .IsRequired();
+
+                    b.Property<string>("Skype");
+
+                    b.Property<string>("Telefone");
+
+                    b.Property<DateTime?>("UpdateDate");
+
+                    b.Property<string>("UpdatedById")
+                        .HasMaxLength(450);
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CidadeId");
+
+                    b.HasIndex("Cnpj");
+
+                    b.HasIndex("Contato");
+
+                    b.HasIndex("CreatedById");
+
+                    b.HasIndex("Email");
+
+                    b.HasIndex("EstadoId");
+
+                    b.HasIndex("NomeFantasia");
+
+                    b.HasIndex("RazaoSocial");
+
+                    b.HasIndex("UpdatedById");
+
+                    b.ToTable("Cliente");
                 });
 
             modelBuilder.Entity("Bruna.Danilo.Testers.Database.Entities.Estado", b =>
@@ -69,6 +263,40 @@ namespace Bruna.Danilo.Testers.Api.Migrations.SqliteMigrations
                     b.HasIndex("UserId");
 
                     b.ToTable("HistoricoCidadesEstados");
+                });
+
+            modelBuilder.Entity("Bruna.Danilo.Testers.Database.Entities.TipoCampanha", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("CreatedById")
+                        .HasMaxLength(450);
+
+                    b.Property<DateTime>("CreatedDate");
+
+                    b.Property<string>("Descricao")
+                        .IsRequired();
+
+                    b.Property<bool>("IsActive")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(true);
+
+                    b.Property<DateTime?>("UpdateDate");
+
+                    b.Property<string>("UpdatedById")
+                        .HasMaxLength(450);
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CreatedById");
+
+                    b.HasIndex("Descricao");
+
+                    b.HasIndex("UpdatedById");
+
+                    b.ToTable("TipoCampanha");
                 });
 
             modelBuilder.Entity("Bruna.Danilo.Testers.Database.Entities.User", b =>
@@ -137,6 +365,66 @@ namespace Bruna.Danilo.Testers.Api.Migrations.SqliteMigrations
                     b.ToTable("AspNetUsers");
                 });
 
+            modelBuilder.Entity("Bruna.Danilo.Testers.Database.Entities.UserRole", b =>
+                {
+                    b.Property<string>("UserId")
+                        .HasMaxLength(450);
+
+                    b.Property<string>("RoleId")
+                        .HasMaxLength(450);
+
+                    b.HasKey("UserId", "RoleId");
+
+                    b.HasAlternateKey("RoleId", "UserId");
+
+                    b.ToTable("AspNetUserRoles");
+                });
+
+            modelBuilder.Entity("Bruna.Danilo.Testers.Database.Entities.Anunciante", b =>
+                {
+                    b.HasOne("Bruna.Danilo.Testers.Database.Entities.User", "CreatedBy")
+                        .WithMany()
+                        .HasForeignKey("CreatedById");
+
+                    b.HasOne("Bruna.Danilo.Testers.Database.Entities.User", "UpdatedBy")
+                        .WithMany()
+                        .HasForeignKey("UpdatedById");
+                });
+
+            modelBuilder.Entity("Bruna.Danilo.Testers.Database.Entities.Campanha", b =>
+                {
+                    b.HasOne("Bruna.Danilo.Testers.Database.Entities.Anunciante", "Anunciante")
+                        .WithMany()
+                        .HasForeignKey("AnuncianteId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Bruna.Danilo.Testers.Database.Entities.Cidade", "Cidade")
+                        .WithMany()
+                        .HasForeignKey("CidadeId");
+
+                    b.HasOne("Bruna.Danilo.Testers.Database.Entities.Cliente", "Cliente")
+                        .WithMany()
+                        .HasForeignKey("ClienteId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Bruna.Danilo.Testers.Database.Entities.User", "CreatedBy")
+                        .WithMany()
+                        .HasForeignKey("CreatedById");
+
+                    b.HasOne("Bruna.Danilo.Testers.Database.Entities.Estado", "Estado")
+                        .WithMany()
+                        .HasForeignKey("EstadoId");
+
+                    b.HasOne("Bruna.Danilo.Testers.Database.Entities.TipoCampanha", "TipoCampanha")
+                        .WithMany()
+                        .HasForeignKey("TipoCampanhaId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Bruna.Danilo.Testers.Database.Entities.User", "UpdatedBy")
+                        .WithMany()
+                        .HasForeignKey("UpdatedById");
+                });
+
             modelBuilder.Entity("Bruna.Danilo.Testers.Database.Entities.Cidade", b =>
                 {
                     b.HasOne("Bruna.Danilo.Testers.Database.Entities.Estado", "Estado")
@@ -145,12 +433,44 @@ namespace Bruna.Danilo.Testers.Api.Migrations.SqliteMigrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
+            modelBuilder.Entity("Bruna.Danilo.Testers.Database.Entities.Cliente", b =>
+                {
+                    b.HasOne("Bruna.Danilo.Testers.Database.Entities.Cidade", "Cidade")
+                        .WithMany()
+                        .HasForeignKey("CidadeId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Bruna.Danilo.Testers.Database.Entities.User", "CreatedBy")
+                        .WithMany()
+                        .HasForeignKey("CreatedById");
+
+                    b.HasOne("Bruna.Danilo.Testers.Database.Entities.Estado", "Estado")
+                        .WithMany()
+                        .HasForeignKey("EstadoId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Bruna.Danilo.Testers.Database.Entities.User", "UpdatedBy")
+                        .WithMany()
+                        .HasForeignKey("UpdatedById");
+                });
+
             modelBuilder.Entity("Bruna.Danilo.Testers.Database.Entities.HistoricoCidadesEstados", b =>
                 {
                     b.HasOne("Bruna.Danilo.Testers.Database.Entities.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Bruna.Danilo.Testers.Database.Entities.TipoCampanha", b =>
+                {
+                    b.HasOne("Bruna.Danilo.Testers.Database.Entities.User", "CreatedBy")
+                        .WithMany()
+                        .HasForeignKey("CreatedById");
+
+                    b.HasOne("Bruna.Danilo.Testers.Database.Entities.User", "UpdatedBy")
+                        .WithMany()
+                        .HasForeignKey("UpdatedById");
                 });
 
             modelBuilder.Entity("Bruna.Danilo.Testers.Database.Entities.User", b =>
@@ -162,6 +482,14 @@ namespace Bruna.Danilo.Testers.Api.Migrations.SqliteMigrations
                     b.HasOne("Bruna.Danilo.Testers.Database.Entities.Estado", "Estado")
                         .WithMany()
                         .HasForeignKey("EstadoId");
+                });
+
+            modelBuilder.Entity("Bruna.Danilo.Testers.Database.Entities.UserRole", b =>
+                {
+                    b.HasOne("Bruna.Danilo.Testers.Database.Entities.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
         }

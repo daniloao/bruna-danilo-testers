@@ -73,6 +73,7 @@ module.exports = {
         }],
         "import/no-unresolved": "off",
         "object-shorthand": "off",
-        "max-len": "off"
+        "max-len": "off",
+        "eol-last": "off"
     }
 }

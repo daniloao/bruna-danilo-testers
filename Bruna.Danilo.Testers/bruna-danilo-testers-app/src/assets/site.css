@@ -1,41 +1,54 @@
-
 body {
- text-align: center; 
- width: 80%;
- margin-right: 10%;
- margin-left: 10%;
+  width: 80%;
+  margin-right: 10%;
+  margin-left: 10%;
+  text-align: center;
 }
 
 .login-box-parent {
-    width: 50%;
-    height: 50%;
+  width: 50%;
+  height: 50%;
 }
 
 .login-box {
-    width: 100%;
-    height: 100%;
-    min-height: 320px;
+  width: 100%;
+  height: 100%;
+  min-height: 320px;
 }
 
 .menu {
-    margin-bottom: 20px;
-    width: 100%;
+  width: 100%;
+  margin-bottom: 20px;
 }
 
-.validation-message{
-    margin-top: 0;
-    margin-bottom: 0;
-    text-align: left;
-    width: 100%;
-    margin-left: 3%;
-    margin-right: 3%;
+.validation-message {
+  width: 100%;
+  margin-top: 0;
+  margin-right: 3%;
+  margin-bottom: 0;
+  margin-left: 3%;
+  text-align: left;
 }
 
 .header {
-    width: 100%;
+  width: 100%;
 }
 
 .header-loggedin {
-    width: 100%;
-    text-align: right;
+  width: 100%;
+  text-align: right;
+}
+
+.paged-table-column {
+  min-width: 100px;
+}
+
+#estadoDiv {
+  width: 15%;
+  margin-left: 15px;
+}
+
+#cidadeDiv {
+  width: 75%;
+  margin-left: 4%;
 }

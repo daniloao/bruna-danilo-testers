@@ -43,7 +43,7 @@
 
         </b-form-group>
         <b-form-group horizontal>
-          <bd-validable-input type="checkbox" placeholder="Aceito os termos e condições" name="acceptTerms" :checkboxModel.sync="model.acceptTerms" :atualizaModel="atualizaModel" :modelState.sync="modelState"></bd-validable-input>
+          <bd-validable-input type="checkbox" placeholder="Aceito os termos e condições" name="acceptTerms" :model.sync="model.acceptTerms" :atualizaModel="atualizaModel" :modelState.sync="modelState"></bd-validable-input>
           <a href="#">Termos e condições aqui!</a>
         </b-form-group>
 
@@ -198,13 +198,4 @@ export default {
 </script>
 
 <style scoped>
-#estadoDiv {
-  width: 15%;
-  margin-left: 15px;
-}
-
-#cidadeDiv {
-  width: 75%;
-  margin-left: 4%;
-}
 </style>

@@ -6,6 +6,7 @@ import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap-vue/dist/bootstrap-vue.css';
 import 'vuejs-dialog/dist/vuejs-dialog.min.css';
 import 'nprogress/nprogress.css';
+import 'vue-material/dist/vue-material.css';
 import '@/assets/site.css';
 import Vue from 'vue';
 import App from './App';
@@ -16,12 +17,18 @@ import VueLocalStorage from 'vue-ls';
 import VuejsDialog from 'vuejs-dialog';
 import BootstrapVue from 'bootstrap-vue';
 import { ModelSelect } from 'vue-search-select';
+import VTooltip from 'v-tooltip';
+import VueMaterial from 'vue-material';
+import VueMask from 'v-mask';
 
+Vue.use(VueMask);
+Vue.use(VueMaterial);
+Vue.use(VTooltip);
 Vue.use(VueResource);
 Vue.use(VuejsDialog);
 Vue.use(BootstrapVue);
 Vue.use(VueLocalStorage, {
-  namespace: 'testers_'
+    namespace: 'testers_'
 });
 
 Vue.component('model-select', ModelSelect);
@@ -30,32 +37,32 @@ Vue.http.options.root = process.env.API_URL_ADDRESS;
 Vue.config.productionTip = false;
 
 Vue.http.interceptors.push((request, next) => {
-  NProgress.start();
-  const user = Vue.ls.get('user');
-  if (user && user.token) {
-    request.headers.set('Authorization', `Bearer ${user.token}`);
-  }
-
-  next((response) => {
-    NProgress.done();
-    console.log(response);
-
-    if (!response.ok) {
-      if (response.statusText === 'Unauthorized') {
-        MessageService.showAlert('Testers - Não autorizado', 'Essa ação não foi autorizada, tente fazer o log out e log in novamente!');
-      } else if (response.body.error === 'invalid_grant') {
-        MessageService.showExpiredMessage().then(() => {
-          AccountService.logOut();
-        });
-      }
+    NProgress.start();
+    const user = Vue.ls.get('user');
+    if (user && user.token) {
+        request.headers.set('Authorization', `Bearer ${user.token}`);
     }
-  });
+
+    next((response) => {
+        NProgress.done();
+        console.log(response);
+
+        if (!response.ok) {
+            if (response.statusText === 'Unauthorized') {
+                MessageService.showAlert('Testers - Não autorizado', 'Essa ação não foi autorizada, tente fazer o log out e log in novamente!');
+            } else if (response.body.error === 'invalid_grant') {
+                MessageService.showExpiredMessage().then(() => {
+                    AccountService.logOut();
+                });
+            }
+        }
+    });
 });
 
 (() => new Vue({
-  el: '#app',
-  router,
-  components: { App },
-  template: '<App/>',
-  render: h => h(App)
+    el: '#app',
+    router,
+    components: { App },
+    template: '<App/>',
+    render: h => h(App)
 }))();

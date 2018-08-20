@@ -11,7 +11,10 @@
         <router-link to="/cupuns-desconto" class="nav-link" active>Cupons de Desconto</router-link>
       </li>
       <li class="nav-tem" v-if="isAuthenticated() && isAdmin()">
-        <router-link to="/campanhas" class="nav-link" active>Cadastro de campanhas</router-link>
+        <router-link to="/campanhas" class="nav-link" active>Campanhas</router-link>
+      </li>
+      <li class="nav-tem" v-if="isAuthenticated() && isAdmin()">
+        <router-link to="/clientes" class="nav-link" active>Clientes</router-link>
       </li>
       <li class="nav-tem">
         <router-link to="/sobre-nos" class="nav-link">Sobre nós</router-link>

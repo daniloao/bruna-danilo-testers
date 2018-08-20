@@ -1,6 +1,6 @@
 ﻿using System;
-using Bruna.Danilo.Testers.Api.Models;
 using Bruna.Danilo.Testers.Database.Entities;
+using Bruna.Danilo.Testers.Models;
 using Microsoft.AspNetCore.Identity;
 
 namespace Bruna.Danilo.Testers.Api.Mappers

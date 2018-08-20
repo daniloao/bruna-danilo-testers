@@ -14,9 +14,11 @@
   <ItemGroup>
     <ProjectReference Include="..\Bruna.Danilo.Testers.Settings\Bruna.Danilo.Testers.Settings.csproj" />
     <ProjectReference Include="..\Bruna.Danilo.Testers.Logs\Bruna.Danilo.Testers.Logs.csproj" />
+    <ProjectReference Include="..\Bruna.Danilo.Testers.Models\Bruna.Danilo.Testers.Models.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Entities\" />
+    <Folder Include="Extensions\" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Microsoft.Extensions.Identity.Stores">

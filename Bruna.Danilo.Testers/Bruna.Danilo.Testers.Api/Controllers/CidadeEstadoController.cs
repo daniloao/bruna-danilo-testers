@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
-using Bruna.Danilo.Testers.Api.Models;
 using Bruna.Danilo.Testers.Database;
 using Bruna.Danilo.Testers.Database.Entities;
 using Bruna.Danilo.Testers.Logs;

@@ -53,6 +53,10 @@ namespace Bruna.Danilo.Testers.Api
 			services.AddTransient<HistoricoCidadesEstadosDao>();
 			services.AddTransient<CidadeDao>();
 			services.AddTransient<UserRoleDao>();
+			services.AddTransient<CampanhaDao>();
+			services.AddTransient<AnuncianteDao>();
+			services.AddTransient<ClienteDao>();
+			services.AddTransient<TipoCampanhaDao>();
 
 			// ===== Add Identity ========
             services.AddIdentity<IdentityUser, IdentityRole>()
