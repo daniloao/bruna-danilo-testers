@@ -8,6 +8,9 @@ import 'vuejs-dialog/dist/vuejs-dialog.min.css';
 import 'nprogress/nprogress.css';
 import 'vue-material/dist/vue-material.css';
 import '@/assets/site.css';
+// You also need to import the styles. If you're using webpack's css-loader, you can do so here:
+import 'vue-snotify/styles/material.css'; // or dark.css or simple.css
+import 'babel-polyfill';
 import Vue from 'vue';
 import App from './App';
 import router from './router';
@@ -20,7 +23,13 @@ import { ModelSelect } from 'vue-search-select';
 import VTooltip from 'v-tooltip';
 import VueMaterial from 'vue-material';
 import VueMask from 'v-mask';
+import Vuelidate from 'vuelidate';
+import Notifications from 'vue-notification';
+import Snotify from 'vue-snotify';
 
+Vue.use(Snotify);
+Vue.use(Notifications);
+Vue.use(Vuelidate);
 Vue.use(VueMask);
 Vue.use(VueMaterial);
 Vue.use(VTooltip);
@@ -49,11 +58,13 @@ Vue.http.interceptors.push((request, next) => {
 
         if (!response.ok) {
             if (response.statusText === 'Unauthorized') {
-                MessageService.showAlert('Testers - Não autorizado', 'Essa ação não foi autorizada, tente fazer o log out e log in novamente!');
-            } else if (response.body.error === 'invalid_grant') {
-                MessageService.showExpiredMessage().then(() => {
+                if (response.url.indexOf('refreshToken') < 0) {
+                    MessageService.showNotification('Essa ação não foi autorizada, tente fazer o log out e log in novamente!', 'Não autorizado');
                     AccountService.logOut();
-                });
+                }
+            } else if (response.body.error === 'invalid_grant') {
+                MessageService.showExpiredMessage();
+                AccountService.logOut();
             }
         }
     });

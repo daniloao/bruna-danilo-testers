@@ -202,7 +202,6 @@ export default {
   },
   created() {
     this.loadEstados().then(() => {
-      console.log(this.$route.params.id);
       if (this.$route.params.id > 0) {
         this.model.id = this.$route.params.id;
         this.loadCliente();

@@ -17,6 +17,7 @@ using Bruna.Danilo.Testers.Api.Mappers;
 using Bruna.Danilo.Testers.Database.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Bruna.Danilo.Testers.Models;
+using DotNetOpenAuth.OAuth2;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -68,6 +69,9 @@ namespace Bruna.Danilo.Testers.Api.Controllers
                 throw ex;
             }
         }
+
+
+
 		[Authorize]
         [HttpPost("isAuthenticated")]
         public  IActionResult IsAuthenticated(){
@@ -81,6 +85,30 @@ namespace Bruna.Danilo.Testers.Api.Controllers
         {
             _signInManager.SignOutAsync();
             return Ok();
+        }
+
+		[Authorize]
+		[HttpGet("refreshToken")]
+		public async Task<IActionResult> RefreshToken()
+        {
+            try
+            {
+				var appUser = await _userManager.GetUserAsync(this.User);
+
+				return Ok(new UserModel()
+				{
+					Token = await GenerateJwtToken(appUser.Email, appUser),
+                    UserRoles = _userRoleDao.GetByUser(appUser.Id).ToModels(),
+                    Email = appUser.Email,
+                    Name = appUser.UserName
+				});
+                   
+            }
+            catch (Exception ex)
+            {
+                _logger.ErrorAsync(ex, null);
+                throw ex;
+            }
         }
         
 		[Authorize]

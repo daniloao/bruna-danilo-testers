@@ -1,13 +1,14 @@
 <template>
   <div class="row">
-      <div v-if="isAuthenticated()" class="header-loggedin">
-        <span>
-          {{ userName }} | <a href="#" @click="logOut">Log out</a>
-        </span>
-      </div>
-      <div class="header">
-        <h1>Header</h1>
-      </div>
+    <div v-if="isAuthenticated()" class="header-loggedin">
+      <span>
+        {{ userName }} |
+        <a href="#" @click="logOut">Log out</a>
+      </span>
+    </div>
+    <div class="header">
+      <h1>Header</h1>
+    </div>
   </div>
 </template>
 
@@ -22,8 +23,6 @@ export default {
   methods: {
     logOut() {
       AccountService.logOut();
-      this.$router.push('/');
-      this.$router.go();
     },
     isAuthenticated() {
       return AccountService.isAuthenticated();

@@ -64,6 +64,7 @@ import _ from 'lodash';
 import AccountService from '@/services/account-service';
 import IBGEService from '@/services/ibge-service';
 import MessageService from '@/services/message-service';
+import { required, email } from 'vuelidate/lib/validators';
 
 export default {
   components: {
@@ -97,11 +98,21 @@ export default {
       cidadesEstadosModelState: []
     };
   },
+  validations: {
+    model: {
+      email: {
+        required,
+        email
+      },
+      fullName: {
+        required
+      }
+    }
+  },
   watch: {
     'model.selectedEstado'() {
       this.cidadesEstadosModelState = [];
       this.model.estado = this.model.selectedEstado.value;
-      console.log(this.model.estado);
       this.loadCidades(this.model.estado);
     },
     'model.cidade'() {

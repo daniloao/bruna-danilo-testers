@@ -185,8 +185,6 @@ export default {
       this.load();
     },
     load() {
-      console.log('this.pagedRequest');
-      console.log(this.pagedRequest);
       this.loadData(this.pagedRequest).then((response) => {
         this.pagedResponse = response.data;
       }, (error) => {

@@ -18,6 +18,9 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Bruna.Danilo.Testers.Database;
+using System.Net;
+using Microsoft.AspNetCore.Diagnostics;
+using Microsoft.AspNetCore.Http;
 
 namespace Bruna.Danilo.Testers.Api
 {
@@ -86,7 +89,7 @@ namespace Bruna.Danilo.Testers.Api
                         ClockSkew = TimeSpan.Zero // remove delay of token when expire
                                 };
                 });
-
+            
 			services.AddMvc();
         }
 
@@ -98,7 +101,7 @@ namespace Bruna.Danilo.Testers.Api
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-            }
+            } 
 
 			app.UseAuthentication();
 			app.UseCors("Cors");          

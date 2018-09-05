@@ -131,8 +131,8 @@ export default {
     }
   },
   created() {
-    this.loadEstados();
     this.loadActionColumns();
+    this.loadEstados();
   },
   computed: {
     sortedEstados() {
