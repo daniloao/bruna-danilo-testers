@@ -32,7 +32,7 @@ namespace Bruna.Danilo.Testers.Api.Controllers
         }
 
 		[HttpPost("clientes")]
-		[Authorize]
+		[Authorize(Roles = "ADMIN")]
 		public IActionResult GetClientes([FromBody] PagedRequestModel<Cliente> model)
         {
             try
@@ -47,7 +47,7 @@ namespace Bruna.Danilo.Testers.Api.Controllers
         }
 
 		[HttpPost("save")]
-        [Authorize]
+		[Authorize(Roles = "ADMIN")]
         public IActionResult SaveCliente([FromBody] Cliente model)
         {
             try
@@ -63,7 +63,7 @@ namespace Bruna.Danilo.Testers.Api.Controllers
         }
 
 		[HttpGet("cliente")]
-        [Authorize]
+		[Authorize(Roles = "ADMIN")]
         public IActionResult GetCliente( int id)
         {
             try

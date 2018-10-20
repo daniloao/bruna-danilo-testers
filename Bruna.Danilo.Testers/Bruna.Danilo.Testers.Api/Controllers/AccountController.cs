@@ -56,8 +56,8 @@ namespace Bruna.Danilo.Testers.Api.Controllers
                 if (result.Succeeded)
                 {
                     var appUser = _userManager.Users.SingleOrDefault(r => r.Email == model.Email);
-                    model.Token = await GenerateJwtToken(model.Email, appUser);
 					model.UserRoles = _userRoleDao.GetByUser(appUser.Id).ToModels();
+					model.Token = await GenerateJwtToken(model.Email, appUser, model.UserRoles  );
                     return Ok(model.ClearPassword());
                 }
 
@@ -95,10 +95,11 @@ namespace Bruna.Danilo.Testers.Api.Controllers
             {
 				var appUser = await _userManager.GetUserAsync(this.User);
 
+				var roles = _userRoleDao.GetByUser(appUser.Id).ToModels();
 				return Ok(new UserModel()
 				{
-					Token = await GenerateJwtToken(appUser.Email, appUser),
-                    UserRoles = _userRoleDao.GetByUser(appUser.Id).ToModels(),
+					Token = await GenerateJwtToken(appUser.Email, appUser, roles),
+                    UserRoles = roles,
                     Email = appUser.Email,
                     Name = appUser.UserName
 				});
@@ -173,8 +174,8 @@ namespace Bruna.Danilo.Testers.Api.Controllers
                 {
                     this._userDao.Update(model.ToEntity(user));
                     await _signInManager.SignInAsync(user, false);
-                    model.Token = await GenerateJwtToken(model.Email, user);
 					model.UserRoles = _userRoleDao.GetByUser(user.Id).ToModels();
+					model.Token = await GenerateJwtToken(model.Email, user, model.UserRoles);
 					this.SendWellcomeEmail();
                     return Ok(model.ClearPassword());
                 }
@@ -200,14 +201,22 @@ namespace Bruna.Danilo.Testers.Api.Controllers
 			// TODO: Wellcome email
 		}
 
-		private async Task<string> GenerateJwtToken(string email, IdentityUser user)
+		private async Task<string> GenerateJwtToken(string email, IdentityUser user, IList<UserRoleModel> roles)
         {
             var claims = new List<Claim>
             {
-                new Claim(JwtRegisteredClaimNames.Sub, email),
-                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                new Claim(ClaimTypes.NameIdentifier, user.Id)
+                new Claim(JwtRegisteredClaimNames.Email, email),
+                new Claim(JwtRegisteredClaimNames.CHash, Guid.NewGuid().ToString()),
+                new Claim(ClaimTypes.Name, user.UserName),
+				new Claim(ClaimTypes.NameIdentifier, user.Id),
+				new Claim(ClaimTypes.Email, email)
             };
+
+			foreach(var role in roles)
+			{
+				claims.Add(new Claim("role", role.RoleId));
+				claims.Add(new Claim(ClaimTypes.Role, role.RoleId));
+			}
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(AppSettings.JwtKey));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);

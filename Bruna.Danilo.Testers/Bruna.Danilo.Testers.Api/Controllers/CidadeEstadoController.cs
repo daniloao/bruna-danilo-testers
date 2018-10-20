@@ -71,7 +71,7 @@ namespace Bruna.Danilo.Testers.Api.Controllers
             }
         }
         
-        [Authorize]
+		[Authorize(Roles = "ADMIN")]
 		[HttpGet("atualizaCidadesEstados")]
 		public async Task<IActionResult> AtualizaCidadesEstados()
         {

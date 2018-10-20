@@ -134,9 +134,10 @@ namespace Bruna.Danilo.Testers.Database
 			IList<PagedColumn> result = new List<PagedColumn>();
 			result.Add(new PagedColumn(){
 				ColumnHeader = "ID",
-				ColumnType = PagedColumn.NUMBER,
-				Format= "0",
-                PropertyName = "id"
+				ColumnType = PagedColumn.LINK,
+				Format= "",
+                PropertyName = "id",
+				Route = "/cliente/"
 			});
 			result.Add(new PagedColumn()
             {

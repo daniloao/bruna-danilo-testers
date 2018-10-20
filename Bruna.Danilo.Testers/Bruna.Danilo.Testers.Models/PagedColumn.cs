@@ -6,7 +6,9 @@ namespace Bruna.Danilo.Testers.Models
 		public const string NUMBER = "number";
 		public const string DATETIME = "datetime";
 		public const string STRING = "string";
+		public const string LINK = "link";
 
+		public string Route { get; set; }
 		public string ColumnHeader { get; set; }
 		public string ColumnType { get; set; }
 		public string Format { get; set; }
