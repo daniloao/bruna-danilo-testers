@@ -4,14 +4,16 @@ using Bruna.Danilo.Testers.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Bruna.Danilo.Testers.Api.Migrations.SqliteMigrations
 {
     [DbContext(typeof(TestersContext))]
-    partial class TestersContextModelSnapshot : ModelSnapshot
+    [Migration("20181026215131_ImagemCampanha2")]
+    partial class ImagemCampanha2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -69,6 +71,8 @@ namespace Bruna.Danilo.Testers.Api.Migrations.SqliteMigrations
                         .IsRequired()
                         .HasMaxLength(450);
 
+                    b.Property<int?>("CidadeId");
+
                     b.Property<int>("ClienteId");
 
                     b.Property<string>("CreatedById")
@@ -81,6 +85,8 @@ namespace Bruna.Danilo.Testers.Api.Migrations.SqliteMigrations
                     b.Property<DateTime?>("DataFim");
 
                     b.Property<DateTime>("DataInicio");
+
+                    b.Property<int?>("EstadoId");
 
                     b.Property<bool>("IsActive")
                         .ValueGeneratedOnAdd()
@@ -107,6 +113,8 @@ namespace Bruna.Danilo.Testers.Api.Migrations.SqliteMigrations
 
                     b.HasIndex("Chave");
 
+                    b.HasIndex("CidadeId");
+
                     b.HasIndex("ClienteId");
 
                     b.HasIndex("CreatedById");
@@ -116,6 +124,8 @@ namespace Bruna.Danilo.Testers.Api.Migrations.SqliteMigrations
                     b.HasIndex("DataFim");
 
                     b.HasIndex("DataInicio");
+
+                    b.HasIndex("EstadoId");
 
                     b.HasIndex("IsActive");
 
@@ -130,32 +140,6 @@ namespace Bruna.Danilo.Testers.Api.Migrations.SqliteMigrations
                     b.HasIndex("DataInicio", "DataFim");
 
                     b.ToTable("Campanha");
-                });
-
-            modelBuilder.Entity("Bruna.Danilo.Testers.Database.Entities.CampanhaCidade", b =>
-                {
-                    b.Property<int>("CampanhaId");
-
-                    b.Property<int>("CidadeId");
-
-                    b.HasKey("CampanhaId", "CidadeId");
-
-                    b.HasIndex("CidadeId");
-
-                    b.ToTable("CampanhaCidade");
-                });
-
-            modelBuilder.Entity("Bruna.Danilo.Testers.Database.Entities.CampanhaEstado", b =>
-                {
-                    b.Property<int>("CampanhaId");
-
-                    b.Property<int>("EstadoId");
-
-                    b.HasKey("CampanhaId", "EstadoId");
-
-                    b.HasIndex("EstadoId");
-
-                    b.ToTable("CampanhaEstado");
                 });
 
             modelBuilder.Entity("Bruna.Danilo.Testers.Database.Entities.CampanhaImagem", b =>
@@ -500,6 +484,10 @@ namespace Bruna.Danilo.Testers.Api.Migrations.SqliteMigrations
                         .HasForeignKey("AnuncianteId")
                         .OnDelete(DeleteBehavior.Cascade);
 
+                    b.HasOne("Bruna.Danilo.Testers.Database.Entities.Cidade", "Cidade")
+                        .WithMany()
+                        .HasForeignKey("CidadeId");
+
                     b.HasOne("Bruna.Danilo.Testers.Database.Entities.Cliente", "Cliente")
                         .WithMany()
                         .HasForeignKey("ClienteId")
@@ -508,6 +496,10 @@ namespace Bruna.Danilo.Testers.Api.Migrations.SqliteMigrations
                     b.HasOne("Bruna.Danilo.Testers.Database.Entities.User", "CreatedBy")
                         .WithMany()
                         .HasForeignKey("CreatedById");
+
+                    b.HasOne("Bruna.Danilo.Testers.Database.Entities.Estado", "Estado")
+                        .WithMany()
+                        .HasForeignKey("EstadoId");
 
                     b.HasOne("Bruna.Danilo.Testers.Database.Entities.TipoCampanha", "TipoCampanha")
                         .WithMany()
@@ -519,36 +511,10 @@ namespace Bruna.Danilo.Testers.Api.Migrations.SqliteMigrations
                         .HasForeignKey("UpdatedById");
                 });
 
-            modelBuilder.Entity("Bruna.Danilo.Testers.Database.Entities.CampanhaCidade", b =>
-                {
-                    b.HasOne("Bruna.Danilo.Testers.Database.Entities.Campanha", "Campanha")
-                        .WithMany("CampanhaCidades")
-                        .HasForeignKey("CampanhaId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("Bruna.Danilo.Testers.Database.Entities.Cidade", "Cidade")
-                        .WithMany()
-                        .HasForeignKey("CidadeId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("Bruna.Danilo.Testers.Database.Entities.CampanhaEstado", b =>
-                {
-                    b.HasOne("Bruna.Danilo.Testers.Database.Entities.Campanha", "Campanha")
-                        .WithMany("CampanhaEstados")
-                        .HasForeignKey("CampanhaId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("Bruna.Danilo.Testers.Database.Entities.Estado", "Estado")
-                        .WithMany()
-                        .HasForeignKey("EstadoId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
             modelBuilder.Entity("Bruna.Danilo.Testers.Database.Entities.CampanhaImagem", b =>
                 {
                     b.HasOne("Bruna.Danilo.Testers.Database.Entities.Campanha", "Campanha")
-                        .WithMany("Imagens")
+                        .WithMany()
                         .HasForeignKey("CampanhaId")
                         .OnDelete(DeleteBehavior.Cascade);
 
@@ -561,7 +527,7 @@ namespace Bruna.Danilo.Testers.Api.Migrations.SqliteMigrations
             modelBuilder.Entity("Bruna.Danilo.Testers.Database.Entities.Cidade", b =>
                 {
                     b.HasOne("Bruna.Danilo.Testers.Database.Entities.Estado", "Estado")
-                        .WithMany("Cidades")
+                        .WithMany()
                         .HasForeignKey("EstadoId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });

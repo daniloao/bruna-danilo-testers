@@ -14,10 +14,17 @@ namespace Bruna.Danilo.Testers.Database
         {
             this._testersContext = testersContext;
         }
-
-		public IList<Cliente> GetAll()
+       
+        public IList<Cliente> GetAll(bool bringInactive = false)
         {
-			return this._testersContext.Clientes.ToList();
+            var query = this._testersContext.Clientes
+                            .AsQueryable();
+
+            if (bringInactive)
+            {
+                query = query.Where(current => current.IsActive == true);
+            }
+            return query.ToList();
         }
 
 		public Cliente GetById(int id)
@@ -67,6 +74,7 @@ namespace Bruna.Danilo.Testers.Database
 			if (model.Id > 0)
 				return this.Update(model);
 
+			model.CreatedById = model.UpdatedById;
 			return this.Add(model);
 		}
 
@@ -129,15 +137,25 @@ namespace Bruna.Danilo.Testers.Database
 			};
 		}
 
+		public void DeleteCliente(int clienteId)
+		{
+			var cliente = this.GetById(clienteId);
+
+			if (cliente == null)
+				throw new Exception($"Cliente não encontrado {clienteId}");
+			
+			this._testersContext.Clientes.Remove(cliente);
+			this._testersContext.SaveChanges();
+		}
+
 		private IEnumerable<PagedColumn> GetColumns()
 		{
 			IList<PagedColumn> result = new List<PagedColumn>();
 			result.Add(new PagedColumn(){
 				ColumnHeader = "ID",
-				ColumnType = PagedColumn.LINK,
+				ColumnType = PagedColumn.NUMBER,
 				Format= "",
-                PropertyName = "id",
-				Route = "/cliente/"
+                PropertyName = "id"
 			});
 			result.Add(new PagedColumn()
             {

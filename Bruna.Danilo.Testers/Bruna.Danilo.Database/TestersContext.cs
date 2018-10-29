@@ -85,6 +85,21 @@ namespace Bruna.Danilo.Testers.Database
 			builder.Entity<TipoCampanha>()
                    .Property(b => b.IsActive)
                    .HasDefaultValue(true);
+			builder.Entity<TipoImagem>()
+                   .Property(b => b.IsActive)
+                   .HasDefaultValue(true);
+			builder.Entity<Imagem>()
+				   .HasIndex(b => b.Nome);
+			builder.Entity<Imagem>()
+                   .Property(b => b.IsActive)
+                   .HasDefaultValue(true);
+			builder.Entity<CampanhaImagem>()
+			       .HasKey(b => new { b.CampanhaId, b.ImagemId });
+			builder.Entity<CampanhaEstado>()
+                    .HasKey(b => new { b.CampanhaId, b.EstadoId });
+			builder.Entity<CampanhaCidade>()
+                    .HasKey(b => new { b.CampanhaId, b.CidadeId });
+                   
         }
 
 		public DbSet<Role> Roles { get; set; }
@@ -97,5 +112,10 @@ namespace Bruna.Danilo.Testers.Database
 		public DbSet<Anunciante> Anunciantes { get; set; }
 		public DbSet<Campanha> Campanhas { get; set; }
 		public DbSet<Cliente> Clientes { get; set; }
+		public DbSet<CampanhaImagem> CampanhaImagens { get; set; }
+		public DbSet<Imagem> Imagens { get; set; }
+		public DbSet<TipoImagem> TiposImagem { get; set; }
+		public DbSet<CampanhaEstado> CampanhaEstados { get; set; }
+		public DbSet<CampanhaCidade> CampanhaCidades { get; set; }
     }
 }

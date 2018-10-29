@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -24,20 +25,6 @@ namespace Bruna.Danilo.Testers.Database.Entities
 
 		[ForeignKey("TipoCampanhaId")]
 		public TipoCampanha TipoCampanha { get; set; }
-
-		public int? CidadeId { get; set; }
-
-		[ForeignKey("CidadeId")]
-		public Cidade Cidade{ get; set; }
-
-		public int? EstadoId { get; set; }
-
-		[ForeignKey("EstadoId")]
-		public Estado Estado { get; set; }
-        
-		public byte[] Logo { get; set; }
-
-		public string LogoUrl { get; set; }
 
 		[Required(ErrorMessage = "O campo Data de Inicio é obrigatório.")]
 		public DateTime DataInicio { get; set; }
@@ -78,5 +65,15 @@ namespace Bruna.Danilo.Testers.Database.Entities
 
         [ForeignKey("UpdatedById")]
         public User UpdatedBy { get; set; }
+        
+		[InverseProperty("Campanha")]
+        public List<CampanhaImagem> Imagens { get; set; }
+        
+		[InverseProperty("Campanha")]
+        public List<CampanhaEstado> CampanhaEstados { get; set; }
+
+		[InverseProperty("Campanha")]
+		public List<CampanhaCidade> CampanhaCidades { get; set; }
+
     }
 }

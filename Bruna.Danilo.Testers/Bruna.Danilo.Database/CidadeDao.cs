@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Bruna.Danilo.Testers.Database.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace Bruna.Danilo.Testers.Database
 {
@@ -18,6 +19,7 @@ namespace Bruna.Danilo.Testers.Database
 		public IList<Cidade> GetByEstado(int estado)
         {
             return this._testersContext.Cidades
+				       .Include(cd => cd.Estado)
 				       .ToList()
 				       .FindAll(currentCidade => currentCidade.EstadoId == estado);
         }

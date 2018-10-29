@@ -96,18 +96,23 @@ namespace Bruna.Danilo.Testers.Logs
                                string userId,
 		                                int? parentLogId = null)
         {
-			
-			int parentLogIdTemp = await this.ErrorAsync( ex.Message,ex.Source,ex.StackTrace, userId, parentLogId);
-			if (!parentLogId.HasValue)
-				parentLogId = parentLogIdTemp;
-			
-			Exception inner = ex.InnerException;
+			return Task.Run(() =>
+			{
+				int parentLogIdTemp =  this.ErrorAsync(ex.Message, ex.Source, ex.StackTrace, userId, parentLogId).Result;
+				if (!parentLogId.HasValue)
+					parentLogId = parentLogIdTemp;
 
-			while(inner != null){
-				await this.ErrorAsync(inner, userId, parentLogId);
-			}
+				Exception inner = ex.InnerException;
+                
+				if (inner != null)
+				{
+					this.ErrorAsync(inner, userId, parentLogId);
+				}
 
-			return (parentLogId.HasValue) ? parentLogId.Value : 0;
+				return (parentLogId.HasValue) ? parentLogId.Value : 0;
+			}).Result;
         }
+
+
 	}
 }

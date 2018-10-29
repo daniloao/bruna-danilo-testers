@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Bruna.Danilo.Testers.Api.Validate;
 using Bruna.Danilo.Testers.Database;
 using Bruna.Danilo.Testers.Database.Entities;
 using Bruna.Danilo.Testers.Logs;
@@ -17,47 +18,82 @@ namespace Bruna.Danilo.Testers.Api.Controllers
 {
 	
 	[Route("api/[controller]")]
-	public class ClienteController: Controller
+	public class ClienteController: BaseController
     {
 		private readonly Logger _logger;
-		private readonly UserManager<IdentityUser> _userManager;
 		private readonly ClienteDao _clienteDao;
 		public ClienteController(Logger logger,
 		                         UserManager<IdentityUser> userManager,
 		                         ClienteDao clienteDao)
+			: base(userManager)
         {
 			this._logger = logger;
-			this._userManager = userManager;
 			this._clienteDao = clienteDao;
         }
 
-		[HttpPost("clientes")]
+
+
+		[HttpPost("filteredClientes")]
 		[Authorize(Roles = "ADMIN")]
 		public IActionResult GetClientes([FromBody] PagedRequestModel<Cliente> model)
-        {
+		{
             try
-            {
+			{
 				return Ok(_clienteDao.PagedFielter(model));
             }
             catch (Exception ex)
             {
-                _logger.ErrorAsync(ex, null);
+                _logger.ErrorAsync(ex, this.GetLoggedInUserId());
+                throw ex;
+            }
+        }
+
+
+        [HttpGet("clientes")]
+        [Authorize(Roles = "ADMIN")]
+        public IActionResult GetAll()
+        {
+            try
+            {
+				return Ok(_clienteDao.GetAll());
+            }
+            catch (Exception ex)
+            {
+                _logger.ErrorAsync(ex, this.GetLoggedInUserId());
                 throw ex;
             }
         }
 
 		[HttpPost("save")]
 		[Authorize(Roles = "ADMIN")]
+		[ValidateModel]
         public IActionResult SaveCliente([FromBody] Cliente model)
         {
             try
             {
+				model.UpdatedById = this.GetLoggedInUserId();
 				_clienteDao.SaveCliente(model);
                 return Ok();
             }
             catch (Exception ex)
             {
-                _logger.ErrorAsync(ex, null);
+				_logger.ErrorAsync(ex, this.GetLoggedInUserId());
+                throw ex;
+            }
+        }
+
+		[HttpDelete("delete")]
+        [Authorize(Roles = "ADMIN")]
+        public IActionResult DeleteCliente(int clienteId)
+        {
+            try
+            {
+				_clienteDao.DeleteCliente(clienteId);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+				_logger.ErrorAsync(ex, this.GetLoggedInUserId());
                 throw ex;
             }
         }
@@ -73,7 +109,7 @@ namespace Bruna.Danilo.Testers.Api.Controllers
             }
             catch (Exception ex)
             {
-                _logger.ErrorAsync(ex, null);
+				_logger.ErrorAsync(ex, this.GetLoggedInUserId());
                 throw ex;
             }
         }

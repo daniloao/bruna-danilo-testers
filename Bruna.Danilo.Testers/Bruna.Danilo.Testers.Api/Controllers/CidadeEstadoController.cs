@@ -16,11 +16,10 @@ namespace Bruna.Danilo.Testers.Api.Controllers
 {
 	
 	[Route("api/[controller]")]
-	public class CidadeEstadoController: Controller
+	public class CidadeEstadoController: BaseController
     {
 		private readonly Logger _logger;
 		private readonly CidadeDao _cidadeDao;
-		private readonly UserManager<IdentityUser> _userManager;
 		private readonly EstadoDao _estadoDao;
 		private readonly HistoricoCidadesEstadosDao _historicoCidadesEstadosDao;
 		public CidadeEstadoController(Logger logger,
@@ -28,22 +27,24 @@ namespace Bruna.Danilo.Testers.Api.Controllers
 		                              EstadoDao estadoDao,
 		                             HistoricoCidadesEstadosDao historicoCidadesEstadosDao,
 		                              UserManager<IdentityUser> userManager)
+			: base(userManager)
         {
 			this._logger = logger;
 			this._cidadeDao = cidadeDao;
 			this._estadoDao = estadoDao;
-			this._userManager = userManager;
 			this._historicoCidadesEstadosDao = historicoCidadesEstadosDao;
         }
 
 		[HttpGet("cidades")]
+		[DisableRequestSizeLimit]
 		public IActionResult GetCidades(string estado){
 			try
 			{
 				int iEstado = 0;
 				if (Int32.TryParse(estado, out iEstado))
 				{
-					return Ok(_cidadeDao.GetByEstado(iEstado));
+					var cidades = _cidadeDao.GetByEstado(iEstado);
+					return Ok(cidades);
 				}
 				else
 				{
@@ -62,7 +63,8 @@ namespace Bruna.Danilo.Testers.Api.Controllers
         {
             try
             {
-                return Ok(_estadoDao.GetAll());
+				var estados = _estadoDao.GetAll();
+                return Ok(estados);
             }
             catch (Exception ex)
             {

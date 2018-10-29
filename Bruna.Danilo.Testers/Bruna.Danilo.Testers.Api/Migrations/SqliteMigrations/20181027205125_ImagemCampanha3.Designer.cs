@@ -4,14 +4,16 @@ using Bruna.Danilo.Testers.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Bruna.Danilo.Testers.Api.Migrations.SqliteMigrations
 {
     [DbContext(typeof(TestersContext))]
-    partial class TestersContextModelSnapshot : ModelSnapshot
+    [Migration("20181027205125_ImagemCampanha3")]
+    partial class ImagemCampanha3
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -132,28 +134,40 @@ namespace Bruna.Danilo.Testers.Api.Migrations.SqliteMigrations
                     b.ToTable("Campanha");
                 });
 
-            modelBuilder.Entity("Bruna.Danilo.Testers.Database.Entities.CampanhaCidade", b =>
-                {
-                    b.Property<int>("CampanhaId");
-
-                    b.Property<int>("CidadeId");
-
-                    b.HasKey("CampanhaId", "CidadeId");
-
-                    b.HasIndex("CidadeId");
-
-                    b.ToTable("CampanhaCidade");
-                });
-
             modelBuilder.Entity("Bruna.Danilo.Testers.Database.Entities.CampanhaEstado", b =>
                 {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
                     b.Property<int>("CampanhaId");
 
                     b.Property<int>("EstadoId");
 
-                    b.HasKey("CampanhaId", "EstadoId");
+                    b.HasKey("Id");
+
+                    b.HasIndex("CampanhaId");
 
                     b.HasIndex("EstadoId");
+
+                    b.ToTable("CampanhaEstado");
+                });
+
+            modelBuilder.Entity("Bruna.Danilo.Testers.Database.Entities.CampanhaEstadoCidade", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("CampanhaEstadoId");
+
+                    b.Property<int>("CidadeId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CampanhaEstadoId");
+
+                    b.HasIndex("CidadeId");
 
                     b.ToTable("CampanhaEstado");
                 });
@@ -519,19 +533,6 @@ namespace Bruna.Danilo.Testers.Api.Migrations.SqliteMigrations
                         .HasForeignKey("UpdatedById");
                 });
 
-            modelBuilder.Entity("Bruna.Danilo.Testers.Database.Entities.CampanhaCidade", b =>
-                {
-                    b.HasOne("Bruna.Danilo.Testers.Database.Entities.Campanha", "Campanha")
-                        .WithMany("CampanhaCidades")
-                        .HasForeignKey("CampanhaId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("Bruna.Danilo.Testers.Database.Entities.Cidade", "Cidade")
-                        .WithMany()
-                        .HasForeignKey("CidadeId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
             modelBuilder.Entity("Bruna.Danilo.Testers.Database.Entities.CampanhaEstado", b =>
                 {
                     b.HasOne("Bruna.Danilo.Testers.Database.Entities.Campanha", "Campanha")
@@ -542,6 +543,24 @@ namespace Bruna.Danilo.Testers.Api.Migrations.SqliteMigrations
                     b.HasOne("Bruna.Danilo.Testers.Database.Entities.Estado", "Estado")
                         .WithMany()
                         .HasForeignKey("EstadoId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Bruna.Danilo.Testers.Database.Entities.CampanhaEstadoCidade")
+                        .WithOne()
+                        .HasForeignKey("Bruna.Danilo.Testers.Database.Entities.CampanhaEstado", "Id")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Bruna.Danilo.Testers.Database.Entities.CampanhaEstadoCidade", b =>
+                {
+                    b.HasOne("Bruna.Danilo.Testers.Database.Entities.CampanhaEstado", "CampanhaEstado")
+                        .WithMany("CampanhaEstadoCidades")
+                        .HasForeignKey("CampanhaEstadoId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Bruna.Danilo.Testers.Database.Entities.Cidade", "Cidade")
+                        .WithMany()
+                        .HasForeignKey("CidadeId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
@@ -561,7 +580,7 @@ namespace Bruna.Danilo.Testers.Api.Migrations.SqliteMigrations
             modelBuilder.Entity("Bruna.Danilo.Testers.Database.Entities.Cidade", b =>
                 {
                     b.HasOne("Bruna.Danilo.Testers.Database.Entities.Estado", "Estado")
-                        .WithMany("Cidades")
+                        .WithMany()
                         .HasForeignKey("EstadoId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });

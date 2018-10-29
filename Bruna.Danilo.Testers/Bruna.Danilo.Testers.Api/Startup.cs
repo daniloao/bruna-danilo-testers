@@ -21,6 +21,7 @@ using Bruna.Danilo.Testers.Database;
 using System.Net;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http;
+using Bruna.Danilo.Testers.Api.Infraestructure.Extensions;
 
 namespace Bruna.Danilo.Testers.Api
 {
@@ -60,6 +61,7 @@ namespace Bruna.Danilo.Testers.Api
 			services.AddTransient<AnuncianteDao>();
 			services.AddTransient<ClienteDao>();
 			services.AddTransient<TipoCampanhaDao>();
+			services.AddTransient<TipoImagemDao>();
 
 			// ===== Add Identity ========
             services.AddIdentity<IdentityUser, IdentityRole>()
@@ -96,13 +98,15 @@ namespace Bruna.Danilo.Testers.Api
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
 		public void Configure(IApplicationBuilder app, 
 		                      IHostingEnvironment env,
-                              ApplicationDbContext dbContext)
+                              ApplicationDbContext dbContext,
+		                      Logger logger)
         {
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-            } 
+            }
 
+			app.ConfigureExceptionHandler(logger);
 			app.UseAuthentication();
 			app.UseCors("Cors");          
 			app.UseMvc();

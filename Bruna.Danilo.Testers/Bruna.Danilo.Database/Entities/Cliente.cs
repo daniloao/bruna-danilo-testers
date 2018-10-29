@@ -37,7 +37,8 @@ namespace Bruna.Danilo.Testers.Database.Entities
 
 		[Required(ErrorMessage = "O campo Cidade é obrigatório.")]
 		public int CidadeId { get; set; }
-
+       
+		[Required(ErrorMessage = "O campo Cidade é obrigatório.")]
         [ForeignKey("CidadeId")]
         public Cidade Cidade { get; set; }
 

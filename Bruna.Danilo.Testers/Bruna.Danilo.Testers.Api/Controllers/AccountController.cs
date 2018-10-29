@@ -25,10 +25,9 @@ namespace Bruna.Danilo.Testers.Api.Controllers
 {
     [Route("api/[controller]")]
     [ValidateModel]
-    public class AccountController : Controller
+    public class AccountController : BaseController
     {
         private readonly SignInManager<IdentityUser> _signInManager;
-        private readonly UserManager<IdentityUser> _userManager;
         private readonly Logger _logger;
         private readonly UserDao _userDao;
 		private readonly UserRoleDao _userRoleDao;
@@ -38,8 +37,8 @@ namespace Bruna.Danilo.Testers.Api.Controllers
                                 Logger logger,
                                 UserDao userDao,
                                 UserRoleDao userRoleDao)
+			: base(userManager)
         {
-            _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
             _userDao = userDao;

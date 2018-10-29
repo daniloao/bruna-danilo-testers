@@ -14,9 +14,15 @@ namespace Bruna.Danilo.Testers.Database
             this._testersContext = testersContext;
         }
 
-		public IList<Anunciante> GetAll()
+		public IList<Anunciante> GetAll(bool bringInactive = false)
         {
-			return this._testersContext.Anunciantes.ToList();
+			var query = this._testersContext.Anunciantes
+                            .AsQueryable();
+
+			if(bringInactive){
+				query = query.Where(current => current.IsActive == true);
+			}
+			return query.ToList();
         }
 
 		public Anunciante GetById(int id)

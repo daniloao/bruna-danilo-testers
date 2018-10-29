@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Bruna.Danilo.Testers.Database.Entities;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 
 namespace Bruna.Danilo.Testers.Database
@@ -17,7 +18,8 @@ namespace Bruna.Danilo.Testers.Database
         }
 
 		public IList<Estado> GetAll(){
-			return this._testersContext.Estados.ToList();
+			return this._testersContext.Estados
+				       .ToList();
 		}
         
 		public async Task<int> ClearAllAsync(bool saveChanges = true){
